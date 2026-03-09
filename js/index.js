@@ -3,13 +3,12 @@ import './lib/konva.min.js';
 const stage = new Konva.Stage({
     container: 'container',
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight - document.getElementsByClassName("navbar")[0].getBoundingClientRect().height,
 });
 const backgroundLayer = new Konva.Layer();
-var layers = [];
+const layer = new Konva.Layer();
 function init() {
-    backgroundInit();
-    layerInit();
+    konvaInit();
 
     // 图层
     var layer = new Konva.Layer();
@@ -29,40 +28,24 @@ function init() {
     // 图层添加到舞台
     stage.add(layer);
 }
-// 延迟刷新指定图层
-function batchDraw(layer) {
-    layer.batchDarw();
-}
-// 延迟刷新所有图层
-function batchDrawAll() {
-    for (let i = 0; i < layers.length; i++) {
-        layers[i].batchDraw();
+// 画布初始设置
+function konvaInit() {
+    var img = new Image();
+    img.src = '/static/background.jpg';
+    img.onload = function () {
+        // 计算合适和图片缩放方式
     }
-}
-// 用于设置图层，默认3+1层
-function layerInit() {
-    layers = [
-        new Konva.Layer(),
-        new Konva.Layer(),
-        new Konva.Layer(),
-    ];
-    for (let i = 0; i < layers.length; i++) {
-        stage.add(layers[i]);
-    }
-}
-// 背景设置
-function backgroundInit() {
+    var kImg = new Konva.Image({
+        x: 0,
+        y: 0,
+        image: img,
+        width: stage.width(),
+        height: stage.height(),
+        listening: false
+    });
+    backgroundLayer.add(kImg);
     stage.add(backgroundLayer);
-    var imageObj = new Image();
-    imageObj.src = '/static/background.jpg';
-    stage.height = imageObj.height;
-    stage.width = imageObj.width;
-    imageObj.onload = function () {
-        const yoda = new Konva.Image({
-            image: imageObj
-        });
-        backgroundLayer.add(yoda);
-    }
+    stage.add(layer);
 }
 
 init();
