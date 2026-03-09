@@ -7,6 +7,7 @@ const stage = new Konva.Stage({
 });
 const backgroundLayer = new Konva.Layer();
 const layer = new Konva.Layer();
+const uiLayer = new Konva.Layer();
 // 保存当前鼠标点击的target
 var currentTarget = null;
 function init() {
@@ -65,7 +66,7 @@ function konvaInit() {
         if (e.target == stage) {
             console.log('点击背景');
             if (currentTarget != null) {
-                var transformer = layer.findOne('#' + currentTarget.id() + '-transformer');
+                var transformer = uiLayer.findOne('#' + currentTarget.id() + '-transformer');
                 if (transformer != null) {
                     transformer.visible(false);
                 }
@@ -94,8 +95,10 @@ function konvaInit() {
         });
         backgroundLayer.add(kImg);
     }
+    // 不是那么逆天的吗？操控有顺序渲染没顺序的吗？
     stage.add(backgroundLayer);
     stage.add(layer);
+    stage.add(uiLayer);
 }
 var count = 0;
 // 添加图片到画布上,默认缩放0.1
@@ -112,24 +115,24 @@ function addImage(path) {
             y: (stage.height() - imageObj.height * scale) / 2,
             id: 'flower' + count
         });
-        // 处理点击或者触摸事件
-        flower.on('click touchstart', function (e) {
-            console.log('点击图片：' + e.target.id());
-            // 上一个点击的是自己的话，取消选择
-            /*if (currentTarget == e.target) {
-                layer.findOne('#' + currentTarget.id() + '-transformer').visible(false);
-                currentTarget = null;
-                return;
-            }*/
-            if (currentTarget != null) {
-                var transformer = layer.findOne('#' + currentTarget.id() + '-transformer');
-                if (transformer != null) {
-                    transformer.visible(false);
-                }
+    // 处理点击或者触摸事件
+    flower.on('click touchstart', function (e) {
+        console.log('点击图片：' + e.target.id());
+        // 上一个点击的是自己的话，取消选择
+        /*if (currentTarget == e.target) {
+            layer.findOne('#' + currentTarget.id() + '-transformer').visible(false);
+            currentTarget = null;
+            return;
+        }*/
+        if (currentTarget != null) {
+            var transformer = uiLayer.findOne('#' + currentTarget.id() + '-transformer');
+            if (transformer != null) {
+                transformer.visible(false);
             }
-            currentTarget = e.target;
-            layer.findOne('#' + currentTarget.id() + '-transformer').visible(true);
-        })
+        }
+        currentTarget = e.target;
+        uiLayer.findOne('#' + currentTarget.id() + '-transformer').visible(true);
+    })
     var transformer = new Konva.Transformer({
         node: flower,
         keepRatio: true,
@@ -140,7 +143,7 @@ function addImage(path) {
     console.log("添加图片：" + flower.id());
     layer.add(flower);
     console.log("添加缩放：" + transformer.id());
-    layer.add(transformer);
+    uiLayer.add(transformer);
     count++;
 }
 init();
