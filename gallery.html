@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>作品展示</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page.gallery.metaTitle">作品展示</title>
+    <link rel="stylesheet" href="./style/index.css">
+    <script type="module" src="./script/pages/static-page.js"></script>
 </head>
-<body>
+<body class="page page--content">
+    <nav class="navbar">
+        <a href="./index.html" class="logo" data-i18n="app.brand">云押花</a>
+        <div class="navbar__actions">
+            <ul class="nav-links">
+                <li><a href="./index.html" data-i18n="nav.studio">编辑台</a></li>
+                <li><a href="./gallery.html" aria-current="page" data-i18n="nav.gallery">作品展示</a></li>
+                <li><a href="./aboutUs.html" data-i18n="nav.about">关于我们</a></li>
+                <li><a href="./contact.html" data-i18n="nav.contact">联系方式</a></li>
+            </ul>
+            <label class="locale-picker">
+                <span class="locale-picker__label" data-i18n="locale.label">语言</span>
+                <select class="locale-picker__select" data-locale-select></select>
+            </label>
+        </div>
+    </nav>
 
+    <main class="content-shell">
+        <section class="content-hero">
+            <p class="panel__eyebrow" data-i18n="page.gallery.eyebrow">Gallery</p>
+            <h1 class="panel__title" data-i18n="page.gallery.title">构图方向示例</h1>
+            <p class="panel__lead" data-i18n="page.gallery.lead">这里展示的是几种适合在电子押花编辑台中快速试排的构图逻辑，帮助使用者从素材开始而不是从空白画布开始。</p>
+        </section>
+
+        <section class="info-grid">
+            <article class="info-card">
+                <h2 data-i18n="page.gallery.card1.title">单枝留白</h2>
+                <p data-i18n="page.gallery.card1.body">以一朵主花搭配少量叶材，让背景纹理承担更多视觉呼吸感。</p>
+            </article>
+            <article class="info-card">
+                <h2 data-i18n="page.gallery.card2.title">对角生长</h2>
+                <p data-i18n="page.gallery.card2.body">使用叶片先建立斜向路径，再在交点堆叠不同尺寸的花朵，构成流动式布局。</p>
+            </article>
+            <article class="info-card">
+                <h2 data-i18n="page.gallery.card3.title">簇状聚焦</h2>
+                <p data-i18n="page.gallery.card3.body">在中心区域连续复制并细调角度，用重复节奏做出花束感与密度变化。</p>
+            </article>
+        </section>
+    </main>
 </body>
 </html>

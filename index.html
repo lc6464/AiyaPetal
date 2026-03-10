@@ -1,23 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>云押花</title>
-    <link rel="stylesheet" href="css/index.css">
-    <script type="module" src="js/index.js"></script>
+    <title data-i18n="studio.metaTitle">云押花</title>
+    <link rel="stylesheet" href="./style/index.css">
+    <script type="importmap">
+        {
+            "imports": {
+                "konva": "./script/vendor/konva.min.js",
+                "@app/": "./script/"
+            }
+        }
+    </script>
+    <link rel="modulepreload" href="./script/index.js">
+    <link rel="modulepreload" href="./script/config/asset-catalog.js">
+    <link rel="modulepreload" href="./script/editor/PressedFlowerStudio.js">
+    <link rel="modulepreload" href="./script/i18n/I18nService.js">
+    <script type="module" src="./script/index.js"></script>
 </head>
-<body>
+<body class="page page--studio">
     <nav class="navbar">
-        <a href="#" class="logo">云押花</a>
-        <ul class="nav-links">
-            <!--<li><a href="index.html">首页</a></li>
-            <li><a href="gallery.html">作品展示</a></li>
-            <li><a href="aboutUs.html">关于我们</a></li>
-            <li><a href="contact.html">联系方式</a></li>
-        -->
-        </ul>
+        <a href="./index.html" class="logo" data-i18n="app.brand">云押花</a>
+        <div class="navbar__actions">
+            <ul class="nav-links">
+                <li><a href="./index.html" aria-current="page" data-i18n="nav.studio">编辑台</a></li>
+                <li><a href="./gallery.html" data-i18n="nav.gallery">作品展示</a></li>
+                <li><a href="./aboutUs.html" data-i18n="nav.about">关于我们</a></li>
+                <li><a href="./contact.html" data-i18n="nav.contact">联系方式</a></li>
+            </ul>
+            <label class="locale-picker">
+                <span class="locale-picker__label" data-i18n="locale.label">语言</span>
+                <select class="locale-picker__select" data-locale-select></select>
+            </label>
+        </div>
     </nav>
-    <div id="container"> </div>
+    <main class="studio-layout">
+        <aside class="panel panel--palette">
+            <h1 class="panel__title panel__title--compact" data-i18n="studio.title">电子押花工作台</h1>
+            <section class="panel-section panel-section--layers" aria-labelledby="layer-list-title">
+                <div class="panel-section__header">
+                    <h2 id="layer-list-title" class="panel-section__title" data-i18n="studio.layers">图层</h2>
+                </div>
+                <div class="layer-list" data-layer-list></div>
+            </section>
+            <div class="asset-palette" data-asset-palette></div>
+        </aside>
+
+        <section class="panel panel--canvas">
+            <div class="toolbar" data-toolbar>
+                <div class="toolbar__group">
+                    <button type="button" data-action="move-up" data-requires-selection="true" data-i18n="toolbar.moveUp">上移</button>
+                    <button type="button" data-action="move-down" data-requires-selection="true" data-i18n="toolbar.moveDown">下移</button>
+                    <button type="button" data-action="duplicate" data-requires-selection="true" data-i18n="toolbar.duplicate">复制</button>
+                    <button type="button" data-action="rotate-left" data-requires-selection="true" data-i18n="toolbar.rotateLeft">左转 15°</button>
+                    <button type="button" data-action="rotate-right" data-requires-selection="true" data-i18n="toolbar.rotateRight">右转 15°</button>
+                    <button type="button" data-action="remove" data-requires-selection="true" data-i18n="toolbar.remove">移除</button>
+                </div>
+                <div class="toolbar__group toolbar__group--file">
+                    <button type="button" class="toolbar__ghost" data-action="import-json" data-i18n="toolbar.importJson">导入方案</button>
+                    <button type="button" class="toolbar__ghost" data-action="export-json" data-i18n="toolbar.exportJson">导出方案</button>
+                    <button type="button" class="toolbar__ghost" data-action="export-image" data-i18n="toolbar.exportImage">导出书签图</button>
+                </div>
+                <div class="toolbar__group toolbar__group--meta">
+                    <button type="button" class="toolbar__ghost" data-action="clear-canvas" data-i18n="toolbar.clearCanvas">清空画布</button>
+                    <output class="toolbar__selection" data-selection-label data-i18n="toolbar.selectionNone">未选中素材</output>
+                </div>
+            </div>
+
+            <div class="stage-frame" data-stage-dropzone>
+                <div class="stage-host" data-stage-host></div>
+            </div>
+
+            <input type="file" hidden data-import-input accept=".json,.eleflower.json,application/json">
+            <p class="status-bar" data-status data-i18n="status.loading">正在载入素材资源...</p>
+        </section>
+    </main>
 </body>
 </html>

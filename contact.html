@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>联系方式</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page.contact.metaTitle">联系方式</title>
+    <link rel="stylesheet" href="./style/index.css">
+    <script type="module" src="./script/pages/static-page.js"></script>
 </head>
-<body>
+<body class="page page--content">
+    <nav class="navbar">
+        <a href="./index.html" class="logo" data-i18n="app.brand">云押花</a>
+        <div class="navbar__actions">
+            <ul class="nav-links">
+                <li><a href="./index.html" data-i18n="nav.studio">编辑台</a></li>
+                <li><a href="./gallery.html" data-i18n="nav.gallery">作品展示</a></li>
+                <li><a href="./aboutUs.html" data-i18n="nav.about">关于我们</a></li>
+                <li><a href="./contact.html" aria-current="page" data-i18n="nav.contact">联系方式</a></li>
+            </ul>
+            <label class="locale-picker">
+                <span class="locale-picker__label" data-i18n="locale.label">语言</span>
+                <select class="locale-picker__select" data-locale-select></select>
+            </label>
+        </div>
+    </nav>
 
+    <main class="content-shell">
+        <section class="content-hero">
+            <p class="panel__eyebrow" data-i18n="page.contact.eyebrow">Contact</p>
+            <h1 class="panel__title" data-i18n="page.contact.title">协作与反馈</h1>
+            <p class="panel__lead" data-i18n="page.contact.lead">如果你要追加素材包、讨论导出能力或接入更完整的花材管理流程，可以从以下通道联系维护者。</p>
+        </section>
+
+        <section class="info-grid">
+            <article class="info-card">
+                <h2 data-i18n="page.contact.card1.title">项目沟通</h2>
+                <p data-i18n="page.contact.card1.body1">邮箱：studio@eleflower.local</p>
+                <p data-i18n="page.contact.card1.body2">用于需求整理、版本反馈与素材管理约定。</p>
+            </article>
+            <article class="info-card">
+                <h2 data-i18n="page.contact.card2.title">合作咨询</h2>
+                <p data-i18n="page.contact.card2.body1">电话：400-000-2033</p>
+                <p data-i18n="page.contact.card2.body2">面向课程共建、文创试样与品牌合作。</p>
+            </article>
+            <article class="info-card">
+                <h2 data-i18n="page.contact.card3.title">工作时间</h2>
+                <p data-i18n="page.contact.card3.body1">周一至周五 09:00 - 18:00</p>
+                <p data-i18n="page.contact.card3.body2">静态站点演示环境默认不包含在线客服与表单提交。</p>
+            </article>
+        </section>
+    </main>
 </body>
 </html>

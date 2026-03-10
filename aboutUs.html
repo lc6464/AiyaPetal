@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>关于我们</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page.about.metaTitle">关于我们</title>
+    <link rel="stylesheet" href="./style/index.css">
+    <script type="module" src="./script/pages/static-page.js"></script>
 </head>
-<body>
+<body class="page page--content">
+    <nav class="navbar">
+        <a href="./index.html" class="logo" data-i18n="app.brand">云押花</a>
+        <div class="navbar__actions">
+            <ul class="nav-links">
+                <li><a href="./index.html" data-i18n="nav.studio">编辑台</a></li>
+                <li><a href="./gallery.html" data-i18n="nav.gallery">作品展示</a></li>
+                <li><a href="./aboutUs.html" aria-current="page" data-i18n="nav.about">关于我们</a></li>
+                <li><a href="./contact.html" data-i18n="nav.contact">联系方式</a></li>
+            </ul>
+            <label class="locale-picker">
+                <span class="locale-picker__label" data-i18n="locale.label">语言</span>
+                <select class="locale-picker__select" data-locale-select></select>
+            </label>
+        </div>
+    </nav>
 
+    <main class="content-shell">
+        <section class="content-hero">
+            <p class="panel__eyebrow" data-i18n="page.about.eyebrow">About EleFlower</p>
+            <h1 class="panel__title" data-i18n="page.about.title">把押花构图搬到浏览器中</h1>
+            <p class="panel__lead" data-i18n="page.about.lead">云押花服务于电子押花排版、教学演示和材料试样阶段，让真实花材在进入纸面前，先完成一轮高效率的数字构图。</p>
+        </section>
+
+        <section class="info-grid">
+            <article class="info-card">
+                <h2 data-i18n="page.about.card1.title">设计原则</h2>
+                <p data-i18n="page.about.card1.body">优先保留手工押花的层次感与留白逻辑，用轻量化 2D 编辑器代替笨重的图像处理流程。</p>
+            </article>
+            <article class="info-card">
+                <h2 data-i18n="page.about.card2.title">技术策略</h2>
+                <p data-i18n="page.about.card2.body">站点采用现代浏览器基线、ES Modules、Import Map 与 Konva，强调清晰结构与低维护成本。</p>
+            </article>
+            <article class="info-card">
+                <h2 data-i18n="page.about.card3.title">适用场景</h2>
+                <p data-i18n="page.about.card3.body">适合花艺课程、文创打样、纪念花册排版和线上协作前的快速构图讨论。</p>
+            </article>
+        </section>
+    </main>
 </body>
 </html>

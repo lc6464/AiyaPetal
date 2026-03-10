@@ -1,0 +1,522 @@
+{
+  "defaultLocale": "zh-Hans",
+  "supportedLocales": [
+    "zh-Hans",
+    "zh-Hant",
+    "en"
+  ],
+  "ui": {
+    "app.brand": {
+      "zh-Hans": "云押花",
+      "zh-Hant": "雲押花",
+      "en": "EleFlower"
+    },
+    "locale.label": {
+      "zh-Hans": "语言",
+      "zh-Hant": "語言",
+      "en": "Language"
+    },
+    "locale.followSystem": {
+      "zh-Hans": "跟随系统（{language}）",
+      "zh-Hant": "跟隨系統（{language}）",
+      "en": "Follow system ({language})"
+    },
+    "nav.studio": {
+      "zh-Hans": "编辑台",
+      "zh-Hant": "編輯台",
+      "en": "Studio"
+    },
+    "nav.gallery": {
+      "zh-Hans": "作品展示",
+      "zh-Hant": "作品展示",
+      "en": "Gallery"
+    },
+    "nav.about": {
+      "zh-Hans": "关于我们",
+      "zh-Hant": "關於我們",
+      "en": "About"
+    },
+    "nav.contact": {
+      "zh-Hans": "联系方式",
+      "zh-Hant": "聯絡方式",
+      "en": "Contact"
+    },
+    "studio.metaTitle": {
+      "zh-Hans": "云押花",
+      "zh-Hant": "雲押花",
+      "en": "EleFlower Studio"
+    },
+    "studio.title": {
+      "zh-Hans": "电子押花工作台",
+      "zh-Hant": "電子押花工作台",
+      "en": "Pressed Flower Studio"
+    },
+    "studio.layers": {
+      "zh-Hans": "图层",
+      "zh-Hant": "圖層",
+      "en": "Layers"
+    },
+    "studio.assetLibrary": {
+      "zh-Hans": "素材库",
+      "zh-Hant": "素材庫",
+      "en": "Asset Library"
+    },
+    "studio.folderHint": {
+      "zh-Hans": "点击文件夹后再加载素材，减少首屏资源体积。",
+      "zh-Hant": "點擊資料夾後再載入素材，減少首屏資源體積。",
+      "en": "Open a folder to lazy-load its assets and keep the first load light."
+    },
+    "studio.folderEmpty": {
+      "zh-Hans": "请选择左侧文件夹以加载素材。",
+      "zh-Hant": "請選擇左側資料夾以載入素材。",
+      "en": "Choose a folder to load its assets."
+    },
+    "studio.folderLoading": {
+      "zh-Hans": "正在加载文件夹素材...",
+      "zh-Hant": "正在載入資料夾素材...",
+      "en": "Loading folder assets..."
+    },
+    "studio.activeFolder": {
+      "zh-Hans": "当前文件夹",
+      "zh-Hant": "當前資料夾",
+      "en": "Current Folder"
+    },
+    "studio.folderAssetCount": {
+      "zh-Hans": "{count} 项素材",
+      "zh-Hant": "{count} 項素材",
+      "en": "{count} assets"
+    },
+    "studio.addAsset": {
+      "zh-Hans": "添加 {label}",
+      "zh-Hant": "加入 {label}",
+      "en": "Add {label}"
+    },
+    "toolbar.moveUp": {
+      "zh-Hans": "上移",
+      "zh-Hant": "上移",
+      "en": "Bring Forward"
+    },
+    "toolbar.moveDown": {
+      "zh-Hans": "下移",
+      "zh-Hant": "下移",
+      "en": "Send Backward"
+    },
+    "toolbar.duplicate": {
+      "zh-Hans": "复制",
+      "zh-Hant": "複製",
+      "en": "Duplicate"
+    },
+    "toolbar.rotateLeft": {
+      "zh-Hans": "左转 15°",
+      "zh-Hant": "左轉 15°",
+      "en": "Rotate Left 15°"
+    },
+    "toolbar.rotateRight": {
+      "zh-Hans": "右转 15°",
+      "zh-Hant": "右轉 15°",
+      "en": "Rotate Right 15°"
+    },
+    "toolbar.remove": {
+      "zh-Hans": "移除",
+      "zh-Hant": "移除",
+      "en": "Remove"
+    },
+    "toolbar.importJson": {
+      "zh-Hans": "导入方案",
+      "zh-Hant": "匯入方案",
+      "en": "Import Layout"
+    },
+    "toolbar.exportJson": {
+      "zh-Hans": "导出方案",
+      "zh-Hant": "匯出方案",
+      "en": "Export Layout"
+    },
+    "toolbar.exportImage": {
+      "zh-Hans": "导出书签图",
+      "zh-Hant": "匯出書籤圖",
+      "en": "Export Bookmark Image"
+    },
+    "toolbar.clearCanvas": {
+      "zh-Hans": "清空画布",
+      "zh-Hant": "清空畫布",
+      "en": "Clear Canvas"
+    },
+    "toolbar.selectionNone": {
+      "zh-Hans": "未选中素材",
+      "zh-Hant": "未選取素材",
+      "en": "No asset selected"
+    },
+    "toolbar.selectionSummary": {
+      "zh-Hans": "{label} · {rotation}°",
+      "zh-Hant": "{label} · {rotation}°",
+      "en": "{label} · {rotation}°"
+    },
+    "layer.empty": {
+      "zh-Hans": "暂无图层",
+      "zh-Hant": "暫無圖層",
+      "en": "No layers yet"
+    },
+    "layer.itemLabel": {
+      "zh-Hans": "{label} {index}",
+      "zh-Hant": "{label} {index}",
+      "en": "{label} {index}"
+    },
+    "status.loading": {
+      "zh-Hans": "正在载入背景与目录资源...",
+      "zh-Hant": "正在載入背景與目錄資源...",
+      "en": "Loading background and catalog data..."
+    },
+    "status.initialHint": {
+      "zh-Hans": "拖拽素材到画布，或直接点击素材卡片。",
+      "zh-Hant": "拖曳素材到畫布，或直接點擊素材卡片。",
+      "en": "Drag an asset onto the canvas or click a card to add it."
+    },
+    "status.assetsReady": {
+      "zh-Hans": "素材库已就绪。可点击文件夹懒加载素材，也可拖入画布。",
+      "zh-Hant": "素材庫已就緒。可點擊資料夾延遲載入素材，也可拖入畫布。",
+      "en": "The library is ready. Open folders to lazy-load assets or drag them onto the canvas."
+    },
+    "status.selectionCleared": {
+      "zh-Hans": "已取消选择。",
+      "zh-Hant": "已取消選取。",
+      "en": "Selection cleared."
+    },
+    "status.added": {
+      "zh-Hans": "已添加 {label}",
+      "zh-Hant": "已加入 {label}",
+      "en": "Added {label}"
+    },
+    "status.duplicated": {
+      "zh-Hans": "已复制 {label}",
+      "zh-Hant": "已複製 {label}",
+      "en": "Duplicated {label}"
+    },
+    "status.removed": {
+      "zh-Hans": "已移除 {label}",
+      "zh-Hant": "已移除 {label}",
+      "en": "Removed {label}"
+    },
+    "status.layerMovedUp": {
+      "zh-Hans": "图层已上移。",
+      "zh-Hant": "圖層已上移。",
+      "en": "Layer moved forward."
+    },
+    "status.layerMovedDown": {
+      "zh-Hans": "图层已下移。",
+      "zh-Hant": "圖層已下移。",
+      "en": "Layer moved backward."
+    },
+    "status.layerReordered": {
+      "zh-Hans": "图层顺序已更新。",
+      "zh-Hant": "圖層順序已更新。",
+      "en": "Layer order updated."
+    },
+    "status.rotatedTo": {
+      "zh-Hans": "旋转至 {rotation}°",
+      "zh-Hant": "旋轉至 {rotation}°",
+      "en": "Rotated to {rotation}°"
+    },
+    "status.canvasCleared": {
+      "zh-Hans": "画布已清空。",
+      "zh-Hant": "畫布已清空。",
+      "en": "Canvas cleared."
+    },
+    "status.folderLoaded": {
+      "zh-Hans": "已打开文件夹 {label}。",
+      "zh-Hant": "已開啟資料夾 {label}。",
+      "en": "Opened folder {label}."
+    },
+    "status.importDone": {
+      "zh-Hans": "已导入 {count} 个素材。",
+      "zh-Hant": "已匯入 {count} 個素材。",
+      "en": "Imported {count} assets."
+    },
+    "status.exportJsonDone": {
+      "zh-Hans": "方案文件已导出。",
+      "zh-Hant": "方案檔案已匯出。",
+      "en": "Layout file exported."
+    },
+    "status.exportImageDone": {
+      "zh-Hans": "书签区域图片已导出。",
+      "zh-Hant": "書籤區域圖片已匯出。",
+      "en": "Bookmark image exported."
+    },
+    "status.importFailed": {
+      "zh-Hans": "导入失败：{message}",
+      "zh-Hant": "匯入失敗：{message}",
+      "en": "Import failed: {message}"
+    },
+    "status.initFailed": {
+      "zh-Hans": "应用初始化失败。",
+      "zh-Hant": "應用初始化失敗。",
+      "en": "Failed to initialize the application."
+    },
+    "status.loadFailed": {
+      "zh-Hans": "资源加载失败：{message}",
+      "zh-Hant": "資源載入失敗：{message}",
+      "en": "Failed to load resources: {message}"
+    },
+    "page.about.metaTitle": {
+      "zh-Hans": "关于我们",
+      "zh-Hant": "關於我們",
+      "en": "About"
+    },
+    "page.about.eyebrow": {
+      "zh-Hans": "About EleFlower",
+      "zh-Hant": "About EleFlower",
+      "en": "About EleFlower"
+    },
+    "page.about.title": {
+      "zh-Hans": "把押花构图搬到浏览器中",
+      "zh-Hant": "把押花構圖搬到瀏覽器中",
+      "en": "Bring Pressed Flower Composition Into the Browser"
+    },
+    "page.about.lead": {
+      "zh-Hans": "云押花服务于电子押花排版、教学演示和材料试样阶段，让真实花材在进入纸面前，先完成一轮高效率的数字构图。",
+      "zh-Hant": "雲押花服務於電子押花排版、教學展示和材料試樣階段，讓真實花材在進入紙面前，先完成一輪高效率的數位構圖。",
+      "en": "EleFlower supports digital composition, teaching demos, and material trials so real flowers can be arranged efficiently before they ever reach paper."
+    },
+    "page.about.card1.title": {
+      "zh-Hans": "设计原则",
+      "zh-Hant": "設計原則",
+      "en": "Design Principles"
+    },
+    "page.about.card1.body": {
+      "zh-Hans": "优先保留手工押花的层次感与留白逻辑，用轻量化 2D 编辑器代替笨重的图像处理流程。",
+      "zh-Hant": "優先保留手工押花的層次感與留白邏輯，用輕量化 2D 編輯器取代笨重的影像處理流程。",
+      "en": "It preserves the layering and whitespace logic of hand-crafted pressed flowers while replacing heavy image editors with a focused 2D workflow."
+    },
+    "page.about.card2.title": {
+      "zh-Hans": "技术策略",
+      "zh-Hant": "技術策略",
+      "en": "Technical Strategy"
+    },
+    "page.about.card2.body": {
+      "zh-Hans": "站点采用现代浏览器基线、ES Modules、Import Map 与 Konva，强调清晰结构与低维护成本。",
+      "zh-Hant": "站點採用現代瀏覽器基線、ES Modules、Import Map 與 Konva，強調清晰結構與低維護成本。",
+      "en": "The site is built on a modern browser baseline with ES modules, import maps, and Konva for a clear structure and low maintenance cost."
+    },
+    "page.about.card3.title": {
+      "zh-Hans": "适用场景",
+      "zh-Hant": "適用場景",
+      "en": "Use Cases"
+    },
+    "page.about.card3.body": {
+      "zh-Hans": "适合花艺课程、文创打样、纪念花册排版和线上协作前的快速构图讨论。",
+      "zh-Hant": "適合花藝課程、文創打樣、紀念花冊排版和線上協作前的快速構圖討論。",
+      "en": "It fits floral classes, cultural product mockups, memorial albums, and fast pre-collaboration composition reviews."
+    },
+    "page.gallery.metaTitle": {
+      "zh-Hans": "作品展示",
+      "zh-Hant": "作品展示",
+      "en": "Gallery"
+    },
+    "page.gallery.eyebrow": {
+      "zh-Hans": "Gallery",
+      "zh-Hant": "Gallery",
+      "en": "Gallery"
+    },
+    "page.gallery.title": {
+      "zh-Hans": "构图方向示例",
+      "zh-Hant": "構圖方向示例",
+      "en": "Composition Directions"
+    },
+    "page.gallery.lead": {
+      "zh-Hans": "这里展示的是几种适合在电子押花编辑台中快速试排的构图逻辑，帮助使用者从素材开始而不是从空白画布开始。",
+      "zh-Hant": "這裡展示的是幾種適合在電子押花編輯台中快速試排的構圖邏輯，幫助使用者從素材開始而不是從空白畫布開始。",
+      "en": "These examples show composition patterns that work well in the editor, helping people start from material logic instead of from a blank canvas."
+    },
+    "page.gallery.card1.title": {
+      "zh-Hans": "单枝留白",
+      "zh-Hant": "單枝留白",
+      "en": "Single Stem"
+    },
+    "page.gallery.card1.body": {
+      "zh-Hans": "以一朵主花搭配少量叶材，让背景纹理承担更多视觉呼吸感。",
+      "zh-Hant": "以一朵主花搭配少量葉材，讓背景紋理承擔更多視覺呼吸感。",
+      "en": "Use one main bloom with only a little foliage so the background texture carries more of the breathing space."
+    },
+    "page.gallery.card2.title": {
+      "zh-Hans": "对角生长",
+      "zh-Hant": "對角生長",
+      "en": "Diagonal Growth"
+    },
+    "page.gallery.card2.body": {
+      "zh-Hans": "使用叶片先建立斜向路径，再在交点堆叠不同尺寸的花朵，构成流动式布局。",
+      "zh-Hant": "使用葉片先建立斜向路徑，再在交點堆疊不同尺寸的花朵，構成流動式佈局。",
+      "en": "Build a diagonal path with foliage first, then stack blooms of different sizes along the intersections for a flowing layout."
+    },
+    "page.gallery.card3.title": {
+      "zh-Hans": "簇状聚焦",
+      "zh-Hant": "簇狀聚焦",
+      "en": "Cluster Focus"
+    },
+    "page.gallery.card3.body": {
+      "zh-Hans": "在中心区域连续复制并细调角度，用重复节奏做出花束感与密度变化。",
+      "zh-Hant": "在中心區域連續複製並微調角度，用重複節奏做出花束感與密度變化。",
+      "en": "Duplicate and fine-tune angles near the center to create bouquet-like rhythm and density changes."
+    },
+    "page.contact.metaTitle": {
+      "zh-Hans": "联系方式",
+      "zh-Hant": "聯絡方式",
+      "en": "Contact"
+    },
+    "page.contact.eyebrow": {
+      "zh-Hans": "Contact",
+      "zh-Hant": "Contact",
+      "en": "Contact"
+    },
+    "page.contact.title": {
+      "zh-Hans": "协作与反馈",
+      "zh-Hant": "協作與回饋",
+      "en": "Collaboration and Feedback"
+    },
+    "page.contact.lead": {
+      "zh-Hans": "如果你要追加素材包、讨论导出能力或接入更完整的花材管理流程，可以从以下通道联系维护者。",
+      "zh-Hant": "如果你要追加素材包、討論匯出能力或接入更完整的花材管理流程，可以從以下通道聯絡維護者。",
+      "en": "If you want to add asset packs, discuss export capability, or connect a fuller asset workflow, reach out through the channels below."
+    },
+    "page.contact.card1.title": {
+      "zh-Hans": "项目沟通",
+      "zh-Hant": "專案溝通",
+      "en": "Project Contact"
+    },
+    "page.contact.card1.body1": {
+      "zh-Hans": "邮箱：studio@eleflower.local",
+      "zh-Hant": "信箱：studio@eleflower.local",
+      "en": "Email: studio@eleflower.local"
+    },
+    "page.contact.card1.body2": {
+      "zh-Hans": "用于需求整理、版本反馈与素材管理约定。",
+      "zh-Hant": "用於需求整理、版本回饋與素材管理約定。",
+      "en": "Use it for requirement review, release feedback, and asset management conventions."
+    },
+    "page.contact.card2.title": {
+      "zh-Hans": "合作咨询",
+      "zh-Hant": "合作諮詢",
+      "en": "Partnership"
+    },
+    "page.contact.card2.body1": {
+      "zh-Hans": "电话：400-000-2033",
+      "zh-Hant": "電話：400-000-2033",
+      "en": "Phone: 400-000-2033"
+    },
+    "page.contact.card2.body2": {
+      "zh-Hans": "面向课程共建、文创试样与品牌合作。",
+      "zh-Hant": "面向課程共建、文創試樣與品牌合作。",
+      "en": "For curriculum collaboration, cultural mockups, and brand partnerships."
+    },
+    "page.contact.card3.title": {
+      "zh-Hans": "工作时间",
+      "zh-Hant": "工作時間",
+      "en": "Working Hours"
+    },
+    "page.contact.card3.body1": {
+      "zh-Hans": "周一至周五 09:00 - 18:00",
+      "zh-Hant": "週一至週五 09:00 - 18:00",
+      "en": "Mon-Fri 09:00 - 18:00"
+    },
+    "page.contact.card3.body2": {
+      "zh-Hans": "静态站点演示环境默认不包含在线客服与表单提交。",
+      "zh-Hant": "靜態站點示範環境預設不包含線上客服與表單送出。",
+      "en": "The static demo does not include live chat or form submission by default."
+    }
+  },
+  "labels": {
+    "7f7ea5af-45c9-4b8c-a46b-d3c1dbf435a9": {
+      "zh-Hans": "押花工作台背景",
+      "zh-Hant": "押花工作台背景",
+      "en": "Workbench Background"
+    },
+    "d8805683-46c6-4326-a88e-96e84c0e7cd9": {
+      "zh-Hans": "花朵素材",
+      "zh-Hant": "花朵素材",
+      "en": "Flower Assets"
+    },
+    "5a24313c-9d76-4a2d-a9d1-80f6a94b3161": {
+      "zh-Hans": "叶片素材",
+      "zh-Hant": "葉片素材",
+      "en": "Foliage Assets"
+    },
+    "d7b0d77b-f0f3-4727-a66d-3ca3b8b7f3d8": {
+      "zh-Hans": "圆瓣花材",
+      "zh-Hant": "圓瓣花材",
+      "en": "Round Blooms"
+    },
+    "0be4d2de-0ebd-4711-a117-e829cb16b6df": {
+      "zh-Hans": "点缀花材",
+      "zh-Hant": "點綴花材",
+      "en": "Accent Blooms"
+    },
+    "b623ddff-bb4d-4f45-91d4-49a14c6a0f22": {
+      "zh-Hans": "细长叶材",
+      "zh-Hant": "細長葉材",
+      "en": "Slender Foliage"
+    },
+    "69a4629d-a8df-4c8c-b2b2-e98cb13cf5df": {
+      "zh-Hans": "延展叶材",
+      "zh-Hant": "延展葉材",
+      "en": "Statement Foliage"
+    },
+    "1e0f7f4c-4a76-4f6d-a53d-0a8a6511c15a": {
+      "zh-Hans": "圆瓣花材 01",
+      "zh-Hant": "圓瓣花材 01",
+      "en": "Round Bloom 01"
+    },
+    "4f2dc4fb-8b8f-4d08-9c47-ffd7e7d9dc3f": {
+      "zh-Hans": "圆瓣花材 02",
+      "zh-Hant": "圓瓣花材 02",
+      "en": "Round Bloom 02"
+    },
+    "54289112-2b99-4b2b-a62d-4b2e6d6403db": {
+      "zh-Hans": "圆瓣花材 03",
+      "zh-Hant": "圓瓣花材 03",
+      "en": "Round Bloom 03"
+    },
+    "e38d7d59-1b54-4e89-9385-83df6b9cce7a": {
+      "zh-Hans": "圆瓣花材 04",
+      "zh-Hant": "圓瓣花材 04",
+      "en": "Round Bloom 04"
+    },
+    "2f5393f1-cd7b-47e3-9c96-d8c4f0b6215c": {
+      "zh-Hans": "点缀花材 01",
+      "zh-Hant": "點綴花材 01",
+      "en": "Accent Bloom 01"
+    },
+    "b7e3f8d1-f3a1-4230-aeec-95bf2c98b5eb": {
+      "zh-Hans": "点缀花材 02",
+      "zh-Hant": "點綴花材 02",
+      "en": "Accent Bloom 02"
+    },
+    "c24683f8-b38f-4d77-8a63-193c277f9e83": {
+      "zh-Hans": "点缀花材 03",
+      "zh-Hant": "點綴花材 03",
+      "en": "Accent Bloom 03"
+    },
+    "f70c4f26-2c6b-4f2b-9ba0-783c48e70756": {
+      "zh-Hans": "点缀花材 04",
+      "zh-Hant": "點綴花材 04",
+      "en": "Accent Bloom 04"
+    },
+    "3160f2f9-544b-4d59-8e54-c4e6f56ed7f2": {
+      "zh-Hans": "细长叶材 01",
+      "zh-Hant": "細長葉材 01",
+      "en": "Slender Foliage 01"
+    },
+    "81039033-fc5d-4263-b4d3-e5ef0e62d257": {
+      "zh-Hans": "细长叶材 02",
+      "zh-Hant": "細長葉材 02",
+      "en": "Slender Foliage 02"
+    },
+    "9ad779e8-93ee-4d29-b243-42ecf43f1b14": {
+      "zh-Hans": "细长叶材 03",
+      "zh-Hant": "細長葉材 03",
+      "en": "Slender Foliage 03"
+    },
+    "6ac64ab5-b2f2-4a66-b35b-0dd5abf4b5f1": {
+      "zh-Hans": "延展叶材 01",
+      "zh-Hant": "延展葉材 01",
+      "en": "Statement Foliage 01"
+    }
+  }
+}

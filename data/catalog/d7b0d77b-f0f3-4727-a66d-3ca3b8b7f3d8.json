@@ -1,0 +1,24 @@
+{
+  "assets": [
+    {
+      "id": "1e0f7f4c-4a76-4f6d-a53d-0a8a6511c15a",
+      "fileName": "1e0f7f4c-4a76-4f6d-a53d-0a8a6511c15a.png",
+      "defaultScale": 0.54
+    },
+    {
+      "id": "4f2dc4fb-8b8f-4d08-9c47-ffd7e7d9dc3f",
+      "fileName": "4f2dc4fb-8b8f-4d08-9c47-ffd7e7d9dc3f.png",
+      "defaultScale": 0.54
+    },
+    {
+      "id": "54289112-2b99-4b2b-a62d-4b2e6d6403db",
+      "fileName": "54289112-2b99-4b2b-a62d-4b2e6d6403db.png",
+      "defaultScale": 0.54
+    },
+    {
+      "id": "e38d7d59-1b54-4e89-9385-83df6b9cce7a",
+      "fileName": "e38d7d59-1b54-4e89-9385-83df6b9cce7a.png",
+      "defaultScale": 0.54
+    }
+  ]
+}
