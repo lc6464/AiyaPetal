@@ -7,9 +7,9 @@
   ],
   "ui": {
     "app.brand": {
-      "zh-Hans": "云押花",
-      "zh-Hant": "雲押花",
-      "en": "EleFlower"
+      "zh-Hans": "哎呀花 - 云押花平台",
+      "zh-Hant": "哎呀花 - 雲押花平台",
+      "en": "AiyaPetal"
     },
     "locale.label": {
       "zh-Hans": "语言",
@@ -42,9 +42,9 @@
       "en": "Contact"
     },
     "studio.metaTitle": {
-      "zh-Hans": "云押花",
-      "zh-Hant": "雲押花",
-      "en": "EleFlower Studio"
+      "zh-Hans": "哎呀花 - 云押花平台",
+      "zh-Hant": "哎呀花 - 雲押花平台",
+      "en": "AiyaPetal Studio"
     },
     "studio.title": {
       "zh-Hans": "电子押花工作台",
@@ -262,9 +262,9 @@
       "en": "About"
     },
     "page.about.eyebrow": {
-      "zh-Hans": "About EleFlower",
-      "zh-Hant": "About EleFlower",
-      "en": "About EleFlower"
+      "zh-Hans": "About AiyaPetal",
+      "zh-Hant": "About AiyaPetal",
+      "en": "About AiyaPetal"
     },
     "page.about.title": {
       "zh-Hans": "把押花构图搬到浏览器中",
@@ -272,9 +272,9 @@
       "en": "Bring Pressed Flower Composition Into the Browser"
     },
     "page.about.lead": {
-      "zh-Hans": "云押花服务于电子押花排版、教学演示和材料试样阶段，让真实花材在进入纸面前，先完成一轮高效率的数字构图。",
-      "zh-Hant": "雲押花服務於電子押花排版、教學展示和材料試樣階段，讓真實花材在進入紙面前，先完成一輪高效率的數位構圖。",
-      "en": "EleFlower supports digital composition, teaching demos, and material trials so real flowers can be arranged efficiently before they ever reach paper."
+      "zh-Hans": "哎呀花 - 云押花平台服务于电子押花排版、教学演示和材料试样阶段，让真实花材在进入纸面前，先完成一轮高效率的数字构图。",
+      "zh-Hant": "哎呀花 - 雲押花平台服務於電子押花排版、教學展示和材料試樣階段，讓真實花材在進入紙面前，先完成一輪高效率的數位構圖。",
+      "en": "AiyaPetal supports digital composition, teaching demos, and material trials so real flowers can be arranged efficiently before they ever reach paper."
     },
     "page.about.card1.title": {
       "zh-Hans": "设计原则",
@@ -382,9 +382,9 @@
       "en": "Project Contact"
     },
     "page.contact.card1.body1": {
-      "zh-Hans": "邮箱：studio@eleflower.local",
-      "zh-Hant": "信箱：studio@eleflower.local",
-      "en": "Email: studio@eleflower.local"
+      "zh-Hans": "",
+      "zh-Hant": "",
+      "en": ""
     },
     "page.contact.card1.body2": {
       "zh-Hans": "用于需求整理、版本反馈与素材管理约定。",

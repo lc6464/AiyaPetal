@@ -21,7 +21,7 @@ function updateStatus(statusNode, message) {
 }
 
 function resolveDraggedAssetId(event) {
-    return event.dataTransfer?.getData('application/x-eleflower-asset')
+    return event.dataTransfer?.getData('application/x-aiya-petal-asset')
         || event.dataTransfer?.getData('text/plain')
         || '';
 }
@@ -321,12 +321,12 @@ async function main() {
                     ),
                 ], { type: 'application/json' });
 
-                downloadBlob(createExportFileName('eleflower-layout', 'eleflower.json'), blob);
+                downloadBlob(createExportFileName('aiya-petal-layout', 'aiya-petal.json'), blob);
                 updateStatus(statusNode, i18n.t('status.exportJsonDone'));
             },
             'export-image': async () => {
                 const imageBlob = await dataUrlToBlob(studio.exportCompositionImage({ pixelRatio: 4 }));
-                downloadBlob(createExportFileName('eleflower-bookmark', 'png'), imageBlob);
+                downloadBlob(createExportFileName('aiya-petal-bookmark', 'png'), imageBlob);
                 updateStatus(statusNode, i18n.t('status.exportImageDone'));
             },
         },

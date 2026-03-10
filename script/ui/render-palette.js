@@ -26,7 +26,7 @@ function createAssetCard(asset, { onAssetAdd, getLabel, addLabel }) {
   button.addEventListener('click', () => onAssetAdd(asset.id));
   button.addEventListener('dragstart', (event) => {
     event.dataTransfer?.setData('text/plain', asset.id);
-    event.dataTransfer?.setData('application/x-eleflower-asset', asset.id);
+    event.dataTransfer?.setData('application/x-aiya-petal-asset', asset.id);
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'copy';
     }

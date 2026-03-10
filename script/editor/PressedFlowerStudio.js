@@ -261,7 +261,7 @@ export class PressedFlowerStudio {
 
   serializeComposition(metadata = {}) {
     return {
-      type: 'eleflower-composition',
+      type: 'aiya-petal-composition',
       version: 1,
       backgroundId: this.#backgroundAsset?.id ?? '',
       metadata,
@@ -279,7 +279,7 @@ export class PressedFlowerStudio {
   }
 
   async loadComposition(document, { resolveAssetById }) {
-    if (!document || document.type !== 'eleflower-composition' || !Array.isArray(document.items)) {
+    if (!document || document.type !== 'aiya-petal-composition' || !Array.isArray(document.items)) {
       throw new Error('不是有效的导入文件。');
     }
 
