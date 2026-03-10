@@ -48,6 +48,10 @@
         </aside>
 
         <section class="panel panel--canvas">
+            <div class="stage-frame" data-stage-dropzone>
+                <div class="stage-host" data-stage-host></div>
+            </div>
+
             <div class="toolbar" data-toolbar>
                 <div class="toolbar__group">
                     <button type="button" data-action="move-up" data-requires-selection="true" data-i18n="toolbar.moveUp">上移</button>
@@ -66,10 +70,6 @@
                     <button type="button" class="toolbar__ghost" data-action="clear-canvas" data-i18n="toolbar.clearCanvas">清空画布</button>
                     <output class="toolbar__selection" data-selection-label data-i18n="toolbar.selectionNone">未选中素材</output>
                 </div>
-            </div>
-
-            <div class="stage-frame" data-stage-dropzone>
-                <div class="stage-host" data-stage-host></div>
             </div>
 
             <input type="file" hidden data-import-input accept=".json,.eleflower.json,application/json">
