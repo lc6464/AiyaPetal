@@ -366,41 +366,56 @@ export class PressedFlowerStudio {
     }
   }
 
+  /**
+   * 序列化当前作品为 JSON 对象
+   * @param {Object} metadata - 附加元数据
+   * @returns {Object} - 序列化的 JSON 对象
+   */
   serializeComposition(metadata = {}) {
     return {
-      type: 'aiya-petal-composition',
-      version: 1,
-      backgroundId: this.#backgroundAsset?.id ?? '',
-      metadata,
+      type: 'aiya-petal-composition', // 标识文件类型
+      version: 1, // 版本号
+      backgroundId: this.#backgroundAsset?.id ?? '', // 背景素材 ID
+      metadata, // 附加元数据（语言、导出时间等）
       items: this.#compositionGroup.getChildren().map((node) => ({
-        id: node.id(),
-        assetId: node.getAttr('assetId'),
-        instanceIndex: node.getAttr('instanceIndex'),
-        x: node.x(),
-        y: node.y(),
-        rotation: node.rotation(),
-        scaleX: node.scaleX(),
-        scaleY: node.scaleY(),
+        id: node.id(), // 节点唯一 ID
+        assetId: node.getAttr('assetId'), // 素材 ID
+        instanceIndex: node.getAttr('instanceIndex'), // 实例索引
+        x: node.x(), // X 坐标
+        y: node.y(), // Y 坐标
+        rotation: node.rotation(), // 旋转角度
+        scaleX: node.scaleX(), // X 轴缩放
+        scaleY: node.scaleY(), // Y 轴缩放
       })),
     };
   }
 
+  /**
+   * 加载 JSON 作品文件到画布
+   * @param {Object} document - JSON 文档对象
+   * @param {Object} options - 选项
+   * @param {Function} options.resolveAssetById - 通过 ID 解析素材的函数
+   */
   async loadComposition(document, { resolveAssetById }) {
+    // 验证文件格式
     if (!document || document.type !== 'aiya-petal-composition' || !Array.isArray(document.items)) {
       throw new Error('不是有效的导入文件。');
     }
 
-    this.clearComposition({ silent: true });
+    this.clearComposition({ silent: true }); // 清空当前画布
 
+    // 逐个加载素材
     for (const item of document.items) {
       const asset = await resolveAssetById(item.assetId);
       if (!asset) {
         throw new Error(`缺少素材 ${item.assetId}`);
       }
 
+      // 使用保存的状态数据恢复素材
       await this.addAsset(asset, { state: item, silent: true });
     }
 
+    // 重置选择状态
     if (this.#selectedNode) {
       this.#selectedNode = null;
       this.#transformer.nodes([]);
@@ -412,8 +427,16 @@ export class PressedFlowerStudio {
     this.#setStatusByKey('status.importDone', { count: document.items.length });
   }
 
+  /**
+   * 导出作品为图片 DataURL
+   * @param {Object} options - 选项
+   * @param {number} [options.pixelRatio=2] - 像素比例（用于高分辨率导出）
+   * @returns {string} - Data URL 字符串
+   */
   exportCompositionImage({ pixelRatio = 2 } = {}) {
+    // 获取导出裁剪区域
     const crop = this.#getExportCropRect();
+    // 使用 Konva Layer 的 toDataURL 方法导出
     return this.#mainLayer.toDataURL({
       x: crop.x,
       y: crop.y,
@@ -423,19 +446,29 @@ export class PressedFlowerStudio {
     });
   }
 
+  /**
+   * 将屏幕坐标转换为画布场景坐标
+   * @param {{clientX: number, clientY: number}} param0 - 鼠标事件坐标
+   * @returns {{x: number, y: number}} - 画布场景坐标
+   */
   toStagePoint({ clientX, clientY }) {
-    const bounds = this.#mountNode.getBoundingClientRect();
-    const localX = clientX - bounds.left;
-    const localY = clientY - bounds.top;
+    const bounds = this.#mountNode.getBoundingClientRect(); // 获取容器边界
+    const localX = clientX - bounds.left; // 相对于容器的 X 坐标
+    const localY = clientY - bounds.top; // 相对于容器的 Y 坐标
+    // 考虑缩放和偏移，转换为场景坐标
     const sceneX = (localX - this.#sceneMetrics.offsetX) / this.#sceneMetrics.scale;
     const sceneY = (localY - this.#sceneMetrics.offsetY) / this.#sceneMetrics.scale;
 
     return {
-      x: clamp(sceneX, 0, this.#sceneMetrics.width),
+      x: clamp(sceneX, 0, this.#sceneMetrics.width), // 限制在场景范围内
       y: clamp(sceneY, 0, this.#sceneMetrics.height),
     };
   }
 
+  /**
+   * 获取画布中心点坐标
+   * @returns {{x: number, y: number}} - 中心点坐标
+   */
   getCanvasCenter() {
     return {
       x: this.#sceneMetrics.width / 2,
@@ -443,6 +476,10 @@ export class PressedFlowerStudio {
     };
   }
 
+  /**
+   * 获取所有图层的当前状态
+   * @returns {Array} - 图层状态数组（从上到下排序）
+   */
   getLayersState() {
     return this.#compositionGroup.getChildren().slice().reverse().map((node) => ({
       id: node.id(),
@@ -451,10 +488,14 @@ export class PressedFlowerStudio {
         label: this.#getNodeLabel(node),
         instanceIndex: node.getAttr('instanceIndex'),
       }),
-      isSelected: node === this.#selectedNode,
+      isSelected: node === this.#selectedNode, // 是否被选中
     }));
   }
 
+  /**
+   * 获取当前选择状态
+   * @returns {Object} - 选择状态对象
+   */
   getSelectionState() {
     if (!this.#selectedNode) {
       return {
@@ -467,7 +508,7 @@ export class PressedFlowerStudio {
     return {
       hasSelection: true,
       label: this.#getNodeLabel(this.#selectedNode),
-      rotation: Math.round(this.#selectedNode.rotation()),
+      rotation: Math.round(this.#selectedNode.rotation()), // 四舍五入到整数度
     };
   }
 
