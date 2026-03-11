@@ -91,21 +91,45 @@ export class PressedFlowerStudio {
    * @param {Object} options - 配置选项
    * @param {Object} options.backgroundAsset - 背景素材对象
    */
-  async initialize({ backgroundAsset }) {
+  async initialize({ backgroundAsset } = {}) {
     this.#Konva = globalThis.Konva; // 从全局获取 Konva 库
     if (!this.#Konva) {
       throw new Error('Konva 未加载，无法初始化编辑器。');
     }
 
+    // 背景可以异步加载：如果提供 backgroundAsset，则异步去设置，不阻塞初始化
     this.#backgroundAsset = backgroundAsset;
     this.#createStage(); // 创建 Konva Stage
     this.#bindStageEvents(); // 绑定画布事件
     this.#bindResizeObserver(); // 监听尺寸变化
-    await this.#setBackground(backgroundAsset); // 设置背景图
-    this.#syncStageSize(); // 同步画布尺寸
+
+    if (backgroundAsset) {
+      // 启动异步加载但不阻塞 initialize
+      this.#setBackground(backgroundAsset)
+        .then(() => {
+          this.#syncStageSize();
+          this.#setStatusByKey('status.backgroundLoaded');
+        })
+        .catch(() => {
+          // 背景加载失败不应阻塞主流程，错误由调用方处理
+        });
+    }
+
+    this.#syncStageSize(); // 同步画布尺寸（使用默认度量）
     this.#emitSelectionChange(); // 触发选择变化
     this.#emitLayersChange(); // 触发图层变化
     this.#setStatusByKey('status.initialHint'); // 显示初始提示
+  }
+
+  /**
+   * 公共方法：异步设置背景并确保舞台尺寸同步
+   * @param {Object} backgroundAsset
+   */
+  async setBackground(backgroundAsset) {
+    this.#backgroundAsset = backgroundAsset;
+    await this.#setBackground(backgroundAsset);
+    this.#syncStageSize();
+    this.#setStatusByKey('status.backgroundLoaded');
   }
 
   /**

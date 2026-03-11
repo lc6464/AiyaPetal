@@ -10,7 +10,7 @@ function interpolate(template, values = {}) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url);
+  const response = await fetch(url, { credentials: 'omit' });
   if (!response.ok) {
     throw new Error(`Failed to load JSON: ${url}`);
   }

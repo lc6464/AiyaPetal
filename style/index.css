@@ -492,6 +492,45 @@ a {
     position: relative;
 }
 
+/* 背景加载覆盖层 */
+.bg-loader {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(240,236,225,0.6));
+    z-index: 40;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 240ms ease;
+}
+
+.bg-loader.is-loading {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.bg-spinner {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 4px solid rgba(36,69,61,0.12);
+    border-top-color: rgba(36,69,61,0.84);
+    animation: bg-spin 1s linear infinite;
+}
+
+@keyframes bg-spin {
+    to { transform: rotate(360deg); }
+}
+
+.bg-message {
+    color: rgba(22,35,31,0.8);
+    font-size: 0.95rem;
+}
+
 .stage-frame.is-drop-target {
     box-shadow: inset 0 0 0 2px rgba(182, 106, 60, 0.45);
 }

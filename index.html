@@ -13,11 +13,18 @@
             }
         }
     </script>
-    <link rel="modulepreload" href="./script/index.js">
-    <link rel="modulepreload" href="./script/config/asset-catalog.js">
-    <link rel="modulepreload" href="./script/editor/PressedFlowerStudio.js">
-    <link rel="modulepreload" href="./script/i18n/I18nService.js">
-    <script type="module" src="./script/index.js"></script>
+    <link rel="prefetch" href="./data/i18n/translations.json" crossorigin="anonymous">
+    <link rel="prefetch" as="fetch" href="./data/catalog/index.json" crossorigin="anonymous">
+    <link rel="modulepreload" href="./script/index.js" crossorigin="anonymous">
+    <link rel="modulepreload" href="./script/config/asset-catalog.js" crossorigin="anonymous">
+    <link rel="modulepreload" href="./script/editor/PressedFlowerStudio.js" crossorigin="anonymous">
+    <link rel="modulepreload" href="./script/i18n/I18nService.js" crossorigin="anonymous">
+    <link rel="modulepreload" href="./script/core/asset-loader.js" crossorigin="anonymous">
+    <link rel="modulepreload" href="./script/ui/render-layer-list.js" crossorigin="anonymous">
+    <link rel="modulepreload" href="./script/ui/render-palette.js" crossorigin="anonymous">
+    <link rel="modulepreload" href="./script/ui/toolbar.js" crossorigin="anonymous">
+    <link rel="preload" as="script" href="./script/vendor/konva.min.js" crossorigin="anonymous">
+    <script type="module" src="./script/index.js" crossorigin="anonymous"></script>
 </head>
 <body class="page page--studio">
     <nav class="navbar">
@@ -49,6 +56,10 @@
 
         <section class="panel panel--canvas">
             <div class="stage-frame" data-stage-dropzone>
+                <div class="bg-loader" data-bg-loader>
+                    <div class="bg-spinner" aria-hidden="true"></div>
+                    <div class="bg-message" data-i18n="status.loadingBackground">正在加载工作台背景…</div>
+                </div>
                 <div class="stage-host" data-stage-host></div>
             </div>
 

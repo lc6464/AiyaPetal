@@ -258,7 +258,11 @@ async function main() {
     // ==================== 3. 加载素材目录和资源 ====================
     const catalog = await createAssetCatalog(); // 创建素材目录管理器
     const assetLoader = new AssetLoader(); // 创建资源加载器
-    await assetLoader.preloadAll([catalog.getBackgroundAsset().src]); // 预加载背景图
+
+    // 背景异步预加载（不阻塞主初始化）
+    const bgLoaderElem = document.querySelector('[data-bg-loader]');
+    const backgroundSrc = catalog.getBackgroundAsset().src;
+    const backgroundPreload = assetLoader.preloadAll([backgroundSrc]);
 
     // 素材文件夹状态管理
     let activeFolderId = null; // 当前打开的文件夹 ID
@@ -303,8 +307,21 @@ async function main() {
         },
     });
 
-    // 初始化编辑器（创建 Konva Stage，设置背景等）
-    await studio.initialize({ backgroundAsset: catalog.getBackgroundAsset() });
+    // 初始化编辑器（创建 Konva Stage，不阻塞背景加载）
+    await studio.initialize();
+
+    // 显示背景加载提示，直到背景资源就绪并设置到编辑器
+    try {
+        if (bgLoaderElem) bgLoaderElem.classList.add('is-loading');
+        await backgroundPreload;
+        await studio.setBackground(catalog.getBackgroundAsset());
+        updateStatus(statusNode, i18n.t('status.assetsReady'));
+    } catch (error) {
+        // 背景加载失败不阻塞主应用，但记录并显示提示
+        handleAppError(statusNode, i18n, error);
+    } finally {
+        if (bgLoaderElem) bgLoaderElem.classList.remove('is-loading');
+    }
 
     // ==================== 5. 定义素材调色板渲染函数 ====================
     const renderPalette = () => {
