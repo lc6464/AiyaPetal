@@ -397,7 +397,7 @@ export class PressedFlowerStudio {
    */
   serializeComposition(metadata = {}) {
     return {
-      type: 'aiya-petal-composition', // 标识文件类型
+      type: 'amazing-flower-composition', // 标识文件类型
       version: 1, // 版本号
       backgroundId: this.#backgroundAsset?.id ?? '', // 背景素材 ID
       metadata, // 附加元数据（语言、导出时间等）
@@ -422,7 +422,7 @@ export class PressedFlowerStudio {
    */
   async loadComposition(document, { resolveAssetById }) {
     // 验证文件格式
-    if (!document || document.type !== 'aiya-petal-composition' || !Array.isArray(document.items)) {
+    if (!document || document.type !== 'amazing-flower-composition' || !Array.isArray(document.items)) {
       throw new Error('不是有效的导入文件。');
     }
 

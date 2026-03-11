@@ -43,7 +43,7 @@ function updateStatus(statusNode, message) {
  * @returns {string} - 素材 ID
  */
 function resolveDraggedAssetId(event) {
-    return event.dataTransfer?.getData('application/x-aiya-petal-asset')
+    return event.dataTransfer?.getData('application/x-amazing-flower-asset')
         || event.dataTransfer?.getData('text/plain')
         || '';
 }
@@ -423,13 +423,13 @@ async function main() {
                     ),
                 ], { type: 'application/json' });
 
-                downloadBlob(createExportFileName('aiya-petal-layout', 'aiya-petal.json'), blob);
+                downloadBlob(createExportFileName('amazing-flower-layout', 'amazing-flower.json'), blob);
                 updateStatus(statusNode, i18n.t('status.exportJsonDone'));
             },
             'export-image': async () => {
                 // 导出作品为 PNG 图片（4 倍分辨率）
                 const imageBlob = await dataUrlToBlob(studio.exportCompositionImage({ pixelRatio: 4 }));
-                downloadBlob(createExportFileName('aiya-petal-bookmark', 'png'), imageBlob);
+                downloadBlob(createExportFileName('amazing-flower-bookmark', 'png'), imageBlob);
                 updateStatus(statusNode, i18n.t('status.exportImageDone'));
             },
         },

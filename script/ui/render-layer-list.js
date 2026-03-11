@@ -1,4 +1,4 @@
-const LAYER_DRAG_TYPE = 'application/x-aiya-petal-layer';
+const LAYER_DRAG_TYPE = 'application/x-amazing-flower-layer';
 
 function createEmptyState(label) {
   const emptyState = document.createElement('p');

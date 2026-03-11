@@ -9,7 +9,7 @@
     "app.brand": {
       "zh-Hans": "哎呀花 - 云押花平台",
       "zh-Hant": "哎呀花 - 雲押花平台",
-      "en": "AiyaPetal"
+      "en": "AmazingFlower"
     },
     "locale.label": {
       "zh-Hans": "语言",
@@ -44,7 +44,7 @@
     "studio.metaTitle": {
       "zh-Hans": "哎呀花 - 云押花平台",
       "zh-Hant": "哎呀花 - 雲押花平台",
-      "en": "AiyaPetal Studio"
+      "en": "AmazingFlower Studio"
     },
     "studio.title": {
       "zh-Hans": "电子押花工作台",
@@ -261,11 +261,6 @@
       "zh-Hant": "關於我們",
       "en": "About"
     },
-    "page.about.eyebrow": {
-      "zh-Hans": "About AiyaPetal",
-      "zh-Hant": "About AiyaPetal",
-      "en": "About AiyaPetal"
-    },
     "page.about.title": {
       "zh-Hans": "把押花构图搬到浏览器中",
       "zh-Hant": "把押花構圖搬到瀏覽器中",
@@ -274,7 +269,7 @@
     "page.about.lead": {
       "zh-Hans": "哎呀花 - 云押花平台服务于电子押花排版、教学演示和材料试样阶段，让真实花材在进入纸面前，先完成一轮高效率的数字构图。",
       "zh-Hant": "哎呀花 - 雲押花平台服務於電子押花排版、教學展示和材料試樣階段，讓真實花材在進入紙面前，先完成一輪高效率的數位構圖。",
-      "en": "AiyaPetal supports digital composition, teaching demos, and material trials so real flowers can be arranged efficiently before they ever reach paper."
+      "en": "AmazingFlower supports digital composition, teaching demos, and material trials so real flowers can be arranged efficiently before they ever reach paper."
     },
     "page.about.timeline.2016.title": {
       "zh-Hans": "2016年 · 创立起步",
@@ -284,7 +279,7 @@
     "page.about.timeline.2016.body": {
       "zh-Hans": "哎呀花工作室正式成立，核心业务聚焦于干花工艺品的设计与制作。",
       "zh-Hant": "哎呀花工作室正式成立，核心業務聚焦於乾花工藝品的設計與製作。",
-      "en": "AiyaPetal studio was founded, focusing on dried-flower design and production."
+      "en": "AmazingFlower studio was founded, focusing on dried-flower design and production."
     },
     "page.about.timeline.2017.title": {
       "zh-Hans": "2017年 · 沉淀积累",
@@ -354,7 +349,7 @@
     "page.about.timeline.summary.body": {
       "zh-Hans": "哎呀花工作室从一间专注干花设计的学生工作室，逐步成长为在创新创业、专业竞赛、国际赛事中屡获殊荣的综合性艺术团队。我们坚持“以花为媒，以艺载道”，在传承与创新中不断探索干花艺术的无限可能，致力于打造兼具美学价值与商业潜力的创意品牌。",
       "zh-Hant": "哎呀花工作室從一間專注乾花設計的學生工作室，逐步成長為在創新創業、專業競賽、國際賽事中屢獲殊榮的綜合性藝術團隊。我們堅持「以花為媒，以藝載道」，在傳承與創新中不斷探索乾花藝術的無限可能，致力於打造兼具美學價值與商業潛力的創意品牌。",
-      "en": "AiyaPetal evolved from a student studio focused on dried-flower design into an award-winning creative team. We uphold craft and innovation, exploring new possibilities and building a brand that blends aesthetics with commercial potential."
+      "en": "AmazingFlower evolved from a student studio focused on dried-flower design into an award-winning creative team. We uphold craft and innovation, exploring new possibilities and building a brand that blends aesthetics with commercial potential."
     },
     "page.about.card1.title": {
       "zh-Hans": "设计原则",

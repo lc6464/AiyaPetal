@@ -58,7 +58,7 @@ export class I18nService extends EventTarget {
   #locale = 'system';
   #resolvedLocale = 'zh-Hans';
 
-  constructor({ translationsUrl, storageKey = 'aiya-petal-locale' } = {}) {
+  constructor({ translationsUrl, storageKey = 'amazing-flower-locale' } = {}) {
     super();
     this.#translationsUrl = translationsUrl;
     this.#storageKey = storageKey;
