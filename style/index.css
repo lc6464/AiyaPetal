@@ -184,7 +184,7 @@ a {
 
 .panel__title {
     font-family: "Georgia", "Times New Roman", serif;
-    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-size: clamp(1rem, 2vw, 1.8rem);
     letter-spacing: -0.03em;
     line-height: 1.05;
 }
