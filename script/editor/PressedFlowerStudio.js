@@ -1,35 +1,69 @@
+// ================================
+// 押花工作室核心编辑器
+// 基于 Konva.js 实现画布编辑功能
+// ================================
+
+/**
+ * 辅助函数：将数值限制在指定范围内
+ * @param {number} value - 要限制的数值
+ * @param {number} min - 最小值
+ * @param {number} max - 最大值
+ * @returns {number} - 限制后的数值
+ */
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
+/**
+ * PressedFlowerStudio 类
+ * 负责管理整个押花编辑器的核心功能：
+ * - 画布渲染（基于 Konva）
+ * - 素材管理
+ * - 图层控制
+ * - 用户交互
+ */
 export class PressedFlowerStudio {
-  #assetLoader;
-  #mountNode;
-  #frameNode;
-  #resolveAssetLabel;
-  #formatLayerLabel;
-  #formatMessage;
-  #onSelectionChange = null;
-  #onLayersChange = null;
-  #onStatusChange = null;
-  #Konva = null;
-  #stage = null;
-  #mainLayer = null;
-  #overlayLayer = null;
-  #sceneGroup = null;
-  #compositionGroup = null;
-  #transformer = null;
-  #backgroundNode = null;
-  #selectedNode = null;
-  #resizeObserver = null;
-  #nodeSequence = 0;
-  #backgroundAsset = null;
-  #sceneMetrics = {
-    width: 1,
-    height: 1,
-    scale: 1,
-    offsetX: 0,
-    offsetY: 0,
+  // ==================== 私有属性声明 ====================
+  #assetLoader; // 资源加载器实例
+  #mountNode; // DOM 挂载点
+  #frameNode; // 外框 DOM 节点
+  #resolveAssetLabel; // 获取素材标签的回调
+  #formatLayerLabel; // 格式化图层标签的回调
+  #formatMessage; // 格式化消息的回调
+  #onSelectionChange = null; // 选择变化回调
+  #onLayersChange = null; // 图层变化回调
+  #onStatusChange = null; // 状态变化回调
+  #Konva = null; // Konva 库引用
+  #stage = null; // Konva Stage 实例
+  #mainLayer = null; // 主渲染层
+  #overlayLayer = null; // 叠加层（用于变换器等）
+  #sceneGroup = null; // 场景组（包含背景和构图）
+  #compositionGroup = null; // 构图组（包含所有素材）
+  #transformer = null; // 变换器（用于缩放旋转）
+  #backgroundNode = null; // 背景图片节点
+  #selectedNode = null; // 当前选中的节点
+  #resizeObserver = null; // 尺寸监听器
+  #nodeSequence = 0; // 节点序列号生成器
+  #backgroundAsset = null; // 背景素材资源
+  #sceneMetrics = { // 场景度量信息
+    width: 1, // 场景宽度
+    height: 1, // 场景高度
+    scale: 1, // 显示缩放比例
+    offsetX: 0, // X 轴偏移
+    offsetY: 0, // Y 轴偏移
   };
 
+  /**
+   * 构造函数
+   * @param {Object} options - 配置选项
+   * @param {HTMLElement} options.mountNode - 画布容器 DOM 节点
+   * @param {HTMLElement} options.frameNode - 外框 DOM 节点
+   * @param {AssetLoader} options.assetLoader - 资源加载器
+   * @param {Function} options.resolveAssetLabel - 获取素材标签函数
+   * @param {Function} options.formatLayerLabel - 格式化图层标签函数
+   * @param {Function} options.formatMessage - 格式化消息函数
+   * @param {Function} options.onSelectionChange - 选择变化回调
+   * @param {Function} options.onLayersChange - 图层变化回调
+   * @param {Function} options.onStatusChange - 状态变化回调
+   */
   constructor({
     mountNode,
     frameNode,
@@ -52,30 +86,49 @@ export class PressedFlowerStudio {
     this.#onStatusChange = onStatusChange;
   }
 
+  /**
+   * 初始化编辑器
+   * @param {Object} options - 配置选项
+   * @param {Object} options.backgroundAsset - 背景素材对象
+   */
   async initialize({ backgroundAsset }) {
-    this.#Konva = globalThis.Konva;
+    this.#Konva = globalThis.Konva; // 从全局获取 Konva 库
     if (!this.#Konva) {
       throw new Error('Konva 未加载，无法初始化编辑器。');
     }
 
     this.#backgroundAsset = backgroundAsset;
-    this.#createStage();
-    this.#bindStageEvents();
-    this.#bindResizeObserver();
-    await this.#setBackground(backgroundAsset);
-    this.#syncStageSize();
-    this.#emitSelectionChange();
-    this.#emitLayersChange();
-    this.#setStatusByKey('status.initialHint');
+    this.#createStage(); // 创建 Konva Stage
+    this.#bindStageEvents(); // 绑定画布事件
+    this.#bindResizeObserver(); // 监听尺寸变化
+    await this.#setBackground(backgroundAsset); // 设置背景图
+    this.#syncStageSize(); // 同步画布尺寸
+    this.#emitSelectionChange(); // 触发选择变化
+    this.#emitLayersChange(); // 触发图层变化
+    this.#setStatusByKey('status.initialHint'); // 显示初始提示
   }
 
+  /**
+   * 刷新展示内容（用于语言切换等场景）
+   */
   refreshPresentation() {
     this.#emitSelectionChange();
     this.#emitLayersChange();
   }
 
+  /**
+   * 添加素材到画布
+   * @param {Object} asset - 素材对象
+   * @param {Object} options - 选项
+   * @param {{x: number, y: number}} [options.position] - 放置位置（可选）
+   * @param {Object} [options.state] - 状态数据（用于导入时恢复）
+   * @param {boolean} [options.silent=false] - 是否静默模式（不显示提示）
+   * @returns {Promise<Konva.Image>} - 创建的图像节点
+   */
   async addAsset(asset, { position, state, silent = false } = {}) {
+    // 加载素材图片
     const image = await this.#assetLoader.load(asset.src);
+    // 创建构图节点
     const node = this.#createCompositionNode(asset, image, {
       position: state
         ? { x: state.x, y: state.y }
@@ -83,11 +136,11 @@ export class PressedFlowerStudio {
       state,
     });
 
-    this.#compositionGroup.add(node);
-    this.#bindNodeEvents(node);
-    this.selectNode(node);
-    this.#emitLayersChange();
-    this.#requestDraw();
+    this.#compositionGroup.add(node); // 添加到构图组
+    this.#bindNodeEvents(node); // 绑定节点事件
+    this.selectNode(node); // 选中新创建的节点
+    this.#emitLayersChange(); // 通知图层变化
+    this.#requestDraw(); // 请求重绘
 
     if (!silent) {
       this.#setStatusByKey('status.added', { label: this.#getAssetLabel(asset.id) });
@@ -96,18 +149,27 @@ export class PressedFlowerStudio {
     return node;
   }
 
+  /**
+   * 选中指定节点
+   * @param {Konva.Image} node - 要选中的节点
+   */
   selectNode(node) {
     if (this.#selectedNode === node) {
-      return;
+      return; // 已经是当前选中节点，跳过
     }
 
     this.#selectedNode = node;
-    this.#transformer.nodes([node]);
-    this.#emitSelectionChange();
-    this.#emitLayersChange();
-    this.#requestDraw();
+    this.#transformer.nodes([node]); // 更新变换器目标
+    this.#emitSelectionChange(); // 触发选择变化
+    this.#emitLayersChange(); // 触发图层变化
+    this.#requestDraw(); // 请求重绘
   }
 
+  /**
+   * 通过图层 ID 选中图层
+   * @param {string} layerId - 图层 ID
+   * @returns {boolean} - 是否成功选中
+   */
   selectLayer(layerId) {
     const node = this.#findNodeById(layerId);
     if (!node) {
@@ -118,28 +180,37 @@ export class PressedFlowerStudio {
     return true;
   }
 
+  /**
+   * 清除当前选择
+   */
   clearSelection() {
     if (!this.#selectedNode) {
-      return;
+      return; // 没有选中任何对象
     }
 
     this.#selectedNode = null;
-    this.#transformer.nodes([]);
+    this.#transformer.nodes([]); // 清空变换器
     this.#emitSelectionChange();
     this.#emitLayersChange();
     this.#requestDraw();
     this.#setStatusByKey('status.selectionCleared');
   }
 
+  /**
+   * 复制选中的素材
+   * @returns {boolean} - 是否成功复制
+   */
   duplicateSelection() {
     if (!this.#selectedNode) {
       return false;
     }
 
+    // 生成新的节点元数据（唯一 ID 和实例索引）
     const metadata = this.#createNodeMetadata();
+    // 克隆节点并设置新属性
     const clonedNode = this.#selectedNode.clone({
       id: metadata.id,
-      x: this.#selectedNode.x() + 96,
+      x: this.#selectedNode.x() + 96, // 向右下偏移 96px
       y: this.#selectedNode.y() + 96,
       assetId: this.#selectedNode.getAttr('assetId'),
       instanceIndex: metadata.instanceIndex,
@@ -148,20 +219,24 @@ export class PressedFlowerStudio {
 
     this.#compositionGroup.add(clonedNode);
     this.#bindNodeEvents(clonedNode);
-    this.selectNode(clonedNode);
+    this.selectNode(clonedNode); // 选中克隆的节点
     this.#emitLayersChange();
     this.#requestDraw();
     this.#setStatusByKey('status.duplicated', { label: this.#getNodeLabel(clonedNode) });
     return true;
   }
 
+  /**
+   * 移除选中的素材
+   * @returns {boolean} - 是否成功移除
+   */
   removeSelection() {
     if (!this.#selectedNode) {
       return false;
     }
 
     const label = this.#getNodeLabel(this.#selectedNode);
-    this.#selectedNode.destroy();
+    this.#selectedNode.destroy(); // 销毁节点
     this.#selectedNode = null;
     this.#transformer.nodes([]);
     this.#emitSelectionChange();
@@ -171,14 +246,18 @@ export class PressedFlowerStudio {
     return true;
   }
 
+  /**
+   * 上移选中图层的层级
+   * @returns {boolean} - 是否成功移动
+   */
   moveSelectionUp() {
     if (!this.#selectedNode) {
       return false;
     }
 
-    const moved = this.#selectedNode.moveUp();
+    const moved = this.#selectedNode.moveUp(); // Konva 内置方法
     if (!moved) {
-      return false;
+      return false; // 已经在最顶层
     }
 
     this.#emitLayersChange();
@@ -187,14 +266,18 @@ export class PressedFlowerStudio {
     return true;
   }
 
+  /**
+   * 下移选中图层的层级
+   * @returns {boolean} - 是否成功移动
+   */
   moveSelectionDown() {
     if (!this.#selectedNode) {
       return false;
     }
 
-    const moved = this.#selectedNode.moveDown();
+    const moved = this.#selectedNode.moveDown(); // Konva 内置方法
     if (!moved) {
-      return false;
+      return false; // 已经在最底层
     }
 
     this.#emitLayersChange();
@@ -203,6 +286,12 @@ export class PressedFlowerStudio {
     return true;
   }
 
+  /**
+   * 重排图层到指定位置
+   * @param {string} layerId - 图层 ID
+   * @param {number} targetIndex - 目标索引（从 0 开始）
+   * @returns {boolean} - 是否成功重排
+   */
   reorderLayer(layerId, targetIndex) {
     const node = this.#findNodeById(layerId);
     const children = this.#compositionGroup.getChildren();
@@ -210,19 +299,26 @@ export class PressedFlowerStudio {
       return false;
     }
 
+    // 计算目标 Z 轴索引（Konva 的 Z 轴从上到下递增）
     const targetZIndex = children.length - 1 - targetIndex;
-    node.setZIndex(targetZIndex);
+    node.setZIndex(targetZIndex); // 设置新的 Z 轴顺序
     this.#emitLayersChange();
     this.#requestDraw();
     this.#setStatusByKey('status.layerReordered');
     return true;
   }
 
+  /**
+   * 旋转选中的素材
+   * @param {number} deltaDegrees - 旋转角度增量
+   * @returns {boolean} - 是否成功旋转
+   */
   rotateSelection(deltaDegrees) {
     if (!this.#selectedNode) {
       return false;
     }
 
+    // 累加旋转角度
     this.#selectedNode.rotation(this.#selectedNode.rotation() + deltaDegrees);
     this.#requestDraw();
     this.#emitSelectionChange();
@@ -232,6 +328,12 @@ export class PressedFlowerStudio {
     return true;
   }
 
+  /**
+   * 微调选中素材的位置
+   * @param {number} deltaX - X 轴移动距离
+   * @param {number} deltaY - Y 轴移动距离
+   * @returns {boolean} - 是否成功移动
+   */
   nudgeSelection(deltaX, deltaY) {
     if (!this.#selectedNode) {
       return false;
@@ -246,8 +348,13 @@ export class PressedFlowerStudio {
     return true;
   }
 
+  /**
+   * 清空画布上的所有素材
+   * @param {Object} options - 选项
+   * @param {boolean} [options.silent=false] - 是否静默模式
+   */
   clearComposition({ silent = false } = {}) {
-    this.#compositionGroup.destroyChildren();
+    this.#compositionGroup.destroyChildren(); // 销毁所有子节点
     this.#selectedNode = null;
     this.#transformer.nodes([]);
     this.#emitSelectionChange();
