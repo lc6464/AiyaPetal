@@ -200,6 +200,20 @@ a {
     max-width: 56ch;
 }
 
+/* 增加关于页面标题与段落的垂直间距，缓解排版过密 */
+.panel__title {
+    margin: 0 0 12px 0;
+}
+
+.panel__lead {
+    margin: 0 0 18px 0;
+    line-height: 1.8;
+}
+
+.about-timeline .panel__title {
+    margin-top: 12px;
+}
+
 .asset-palette {
     align-content: start;
     display: grid;
