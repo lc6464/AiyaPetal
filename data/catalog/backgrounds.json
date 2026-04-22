@@ -1,0 +1,100 @@
+{
+  "backgrounds": [
+    {
+      "id": "7f7ea5af-45c9-4b8c-a46b-d3c1dbf435a9",
+      "fileName": "7f7ea5af-45c9-4b8c-a46b-d3c1dbf435a9.webp",
+      "imageWidth": 4000,
+      "imageHeight": 4500,
+      "cropRect": {
+        "x": 1480,
+        "y": 990,
+        "width": 1000,
+        "height": 2475
+      }
+    },
+    {
+      "id": "18b02016-5087-491a-9bb7-3dc51e0dae73",
+      "fileName": "18b02016-5087-491a-9bb7-3dc51e0dae73.webp",
+      "imageWidth": 1086,
+      "imageHeight": 1448,
+      "cropRect": {
+        "x": 389,
+        "y": 356,
+        "width": 218,
+        "height": 684
+      }
+    },
+    {
+      "id": "6135c709-507a-43bf-ab6e-96743bc10da7",
+      "fileName": "6135c709-507a-43bf-ab6e-96743bc10da7.webp",
+      "imageWidth": 1086,
+      "imageHeight": 1448,
+      "cropRect": {
+        "x": 397,
+        "y": 366,
+        "width": 204,
+        "height": 706
+      }
+    },
+    {
+      "id": "72a227a2-b93d-4308-8361-97b58b1154f6",
+      "fileName": "72a227a2-b93d-4308-8361-97b58b1154f6.webp",
+      "imageWidth": 1086,
+      "imageHeight": 1448,
+      "cropRect": {
+        "x": 425,
+        "y": 395,
+        "width": 234,
+        "height": 680
+      }
+    },
+    {
+      "id": "7a4b6aee-2478-452c-8c61-51c58d150cf2",
+      "fileName": "7a4b6aee-2478-452c-8c61-51c58d150cf2.webp",
+      "imageWidth": 1086,
+      "imageHeight": 1448,
+      "cropRect": {
+        "x": 403,
+        "y": 360,
+        "width": 206,
+        "height": 645
+      }
+    },
+    {
+      "id": "a311a836-d82a-4903-92cc-bac101cb7948",
+      "fileName": "a311a836-d82a-4903-92cc-bac101cb7948.webp",
+      "imageWidth": 1086,
+      "imageHeight": 1448,
+      "cropRect": {
+        "x": 417,
+        "y": 389,
+        "width": 230,
+        "height": 695
+      }
+    },
+    {
+      "id": "dd00a1ca-f312-4d6e-b8f8-b3352d00d60b",
+      "fileName": "dd00a1ca-f312-4d6e-b8f8-b3352d00d60b.webp",
+      "imageWidth": 1086,
+      "imageHeight": 1448,
+      "cropRect": {
+        "x": 392,
+        "y": 357,
+        "width": 213,
+        "height": 660
+      }
+    },
+    {
+      "id": "e95446d9-30c7-4593-ab92-02b83d6ac264",
+      "fileName": "e95446d9-30c7-4593-ab92-02b83d6ac264.webp",
+      "imageWidth": 1086,
+      "imageHeight": 1448,
+      "cropRect": {
+        "x": 391,
+        "y": 356,
+        "width": 211,
+        "height": 685
+      }
+    }
+  ]
+}

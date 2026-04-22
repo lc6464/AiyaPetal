@@ -5,6 +5,7 @@ AmazingFlower 是一个基于浏览器的电子押花排版平台。项目为纯
 ## 项目特性
 
 - 画布编辑：拖拽/点击素材到画布，支持选中、缩放、旋转、拖动。
+- 背景切换：左侧提供独立的背景图片文件夹，可切换多套书签背景，并按背景裁切区导出对应书签图。
 - 图层管理：图层列表实时同步，可点击选中与拖拽重排。
 - 工具栏操作：上移、下移、复制、旋转、删除、清空画布。
 - 导入导出：支持导入 JSON 方案、导出 JSON 方案、导出书签区域 PNG 图片。
@@ -27,6 +28,7 @@ AmazingFlower/
 ├─ assets/                    # 图片素材（背景/花朵/叶片）
 ├─ data/
 │  ├─ catalog/                # 素材目录与分文件夹清单
+│  │  ├─ backgrounds.json     # 背景图片配置（文件名、尺寸、书签裁切坐标）
 │  └─ i18n/
 │     ├─ index.json           # i18n 清单（默认语言、支持语言、资源文件列表）
 │     ├─ common.json          # 通用 UI 文案（品牌、导航、语言切换）
@@ -77,8 +79,10 @@ npx serve . -p 8080
 4. 初始化 `PressedFlowerStudio`：
    - 创建 Konva Stage / Layer / Group / Transformer；
    - 绑定选中、拖拽、变换、画布自适应（`ResizeObserver`）；
-   - 设置背景图并同步场景缩放与偏移。
+   - 设置背景图并同步场景缩放与偏移；
+   - 切换背景时按旧书签区到新书签区重映射当前构图，保持花材相对位置。
 5. 渲染素材面板：
+   - 左侧将背景图片作为首个文件夹展示，点开后可切换背景；
    - 左侧按 group/folder 展示；
    - 点击文件夹后才拉取对应 `data/catalog/{folder-id}.json`（懒加载）。
 6. 绑定交互：
@@ -97,7 +101,9 @@ npx serve . -p 8080
 ### 素材目录
 
 - `data/catalog/index.json`
-  - 定义背景素材、素材分组、文件夹清单、文件夹内素材 ID 列表。
+  - 定义默认背景 ID、素材分组、文件夹清单、文件夹内素材 ID 列表。
+- `data/catalog/backgrounds.json`
+  - 定义可选背景列表，以及每张背景的文件名、原始尺寸、书签裁切坐标。
 - `data/catalog/{folder-id}.json`
   - 定义该文件夹下具体素材条目（`id`、`fileName`、`defaultScale`）。
 
@@ -108,7 +114,7 @@ npx serve . -p 8080
 ```json
 {
   "type": "amazing-flower-composition",
-  "version": 1,
+  "version": 2,
   "backgroundId": "xxx",
   "metadata": {
     "locale": "zh-Hans",
@@ -136,7 +142,8 @@ npx serve . -p 8080
 1. 将图片放入 `assets/`。
 2. 在 `data/catalog/{folder-id}.json` 添加素材项。
 3. 在 `data/catalog/index.json` 中注册 folder 与 group 的关联关系。
-4. 在 `data/i18n/assets.json` 中补齐素材 ID 的多语言名称；若是背景、分组或文件夹标签，则更新 `data/i18n/catalog.json`。
+4. 若新增的是背景图，还需要在 `data/catalog/backgrounds.json` 中登记尺寸与裁切坐标。
+5. 在 `data/i18n/assets.json` 中补齐素材 ID 的多语言名称；若是背景、分组或文件夹标签，则更新 `data/i18n/catalog.json`。
 
 ### 新增界面文案
 

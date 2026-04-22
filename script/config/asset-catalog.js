@@ -11,10 +11,33 @@ async function fetchJson(url) {
 }
 
 function freezeBackgroundAsset(background) {
+  const imageWidth = Math.max(Number(background.imageWidth) || 1, 1);
+  const imageHeight = Math.max(Number(background.imageHeight) || 1, 1);
+  const rawCropWidth = Number(background.cropRect?.width) || imageWidth;
+  const rawCropHeight = Number(background.cropRect?.height) || imageHeight;
+  const cropWidth = Math.min(Math.max(rawCropWidth, 1), imageWidth);
+  const cropHeight = Math.min(Math.max(rawCropHeight, 1), imageHeight);
+  const cropX = Math.min(Math.max(Number(background.cropRect?.x) || 0, 0), imageWidth - cropWidth);
+  const cropY = Math.min(Math.max(Number(background.cropRect?.y) || 0, 0), imageHeight - cropHeight);
+
   return Object.freeze({
     id: background.id,
+    fileName: background.fileName,
     src: buildAssetUrl(background.fileName),
-    exportRegion: Object.freeze({ ...background.exportRegion }),
+    imageWidth,
+    imageHeight,
+    cropRect: Object.freeze({
+      x: cropX,
+      y: cropY,
+      width: cropWidth,
+      height: cropHeight,
+    }),
+    exportRegion: Object.freeze({
+      x: cropX / imageWidth,
+      y: cropY / imageHeight,
+      width: cropWidth / imageWidth,
+      height: cropHeight / imageHeight,
+    }),
   });
 }
 
@@ -35,20 +58,33 @@ function freezeAsset(asset, folderId) {
 }
 
 export async function createAssetCatalog() {
-  const manifest = await fetchJson(buildDataUrl('catalog/index.json'));
-  return new AssetCatalog(manifest);
+  const [manifest, backgroundManifest] = await Promise.all([
+    fetchJson(buildDataUrl('catalog/index.json')),
+    fetchJson(buildDataUrl('catalog/backgrounds.json')),
+  ]);
+
+  return new AssetCatalog(manifest, backgroundManifest);
 }
 
 class AssetCatalog {
-  #backgroundAsset;
+  #backgrounds;
+  #backgroundIndex;
+  #defaultBackgroundId;
   #groups;
   #folderIndex;
   #assetIndex = new Map();
   #assetToFolder = new Map();
   #folderAssetCache = new Map();
 
-  constructor(manifest) {
-    this.#backgroundAsset = freezeBackgroundAsset(manifest.background);
+  constructor(manifest, backgroundManifest) {
+    this.#backgrounds = Object.freeze(
+      (backgroundManifest.backgrounds ?? []).map(freezeBackgroundAsset),
+    );
+    this.#backgroundIndex = new Map(this.#backgrounds.map((background) => [background.id, background]));
+    this.#defaultBackgroundId = manifest.defaultBackgroundId
+      ?? backgroundManifest.defaultBackgroundId
+      ?? this.#backgrounds[0]?.id
+      ?? '';
 
     const folders = manifest.folders.map(freezeFolder);
     this.#folderIndex = new Map(folders.map((folder) => [folder.id, folder]));
@@ -67,7 +103,15 @@ class AssetCatalog {
   }
 
   getBackgroundAsset() {
-    return this.#backgroundAsset;
+    return this.getBackground(this.#defaultBackgroundId) ?? this.#backgrounds[0] ?? null;
+  }
+
+  getBackgrounds() {
+    return [...this.#backgrounds];
+  }
+
+  getBackground(backgroundId) {
+    return this.#backgroundIndex.get(backgroundId) ?? null;
   }
 
   getGroups() {

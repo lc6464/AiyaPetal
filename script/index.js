@@ -13,6 +13,9 @@ import { renderLayerList } from '@app/ui/render-layer-list.js'; // 图层列表�
 import { renderAssetPalette } from '@app/ui/render-palette.js'; // 素材调色板渲染
 import { bindToolbar, updateToolbarState } from '@app/ui/toolbar.js'; // 工具栏绑定
 
+const BACKGROUND_GROUP_ID = 'studio-background-group';
+const BACKGROUND_FOLDER_ID = 'studio-background-folder';
+
 /**
  * 断言元素为 HTMLElement 的辅助函数
  * @param {*} element - 要检查的元素
@@ -100,14 +103,48 @@ async function dataUrlToBlob(dataUrl) {
  */
 function createPaletteMessages(i18n) {
     return {
+        backgroundHint: i18n.t('studio.backgroundHint'),
         libraryTitle: i18n.t('studio.assetLibrary'),
         folderHint: i18n.t('studio.folderHint'),
         pickFolder: i18n.t('studio.folderEmpty'),
         loading: i18n.t('studio.folderLoading'),
         empty: i18n.t('studio.folderEmpty'),
         folderCount: (count) => i18n.t('studio.folderAssetCount', { count }),
+        useBackground: (label) => i18n.t('studio.useBackground', { label }),
         addAsset: (label) => i18n.t('studio.addAsset', { label }),
     };
+}
+
+function createPaletteGroups(catalogGroups, backgrounds) {
+    return [
+        {
+            id: BACKGROUND_GROUP_ID,
+            folders: [
+                {
+                    id: BACKGROUND_FOLDER_ID,
+                    groupId: BACKGROUND_GROUP_ID,
+                    assetCount: backgrounds.length,
+                    kind: 'background',
+                },
+            ],
+        },
+        ...catalogGroups,
+    ];
+}
+
+function findPaletteFolder(groups, folderId) {
+    if (!folderId) {
+        return null;
+    }
+
+    for (const group of groups) {
+        const folder = group.folders.find((item) => item.id === folderId);
+        if (folder) {
+            return folder;
+        }
+    }
+
+    return null;
 }
 
 /**
@@ -279,13 +316,19 @@ async function main() {
 
     // 背景异步预加载（不阻塞主初始化）
     const bgLoaderElem = document.querySelector('[data-bg-loader]');
-    const backgroundSrc = catalog.getBackgroundAsset().src;
-    const backgroundPreload = assetLoader.preloadAll([backgroundSrc]);
+    const backgrounds = catalog.getBackgrounds();
+    const catalogGroups = catalog.getGroups();
+    const defaultBackground = catalog.getBackgroundAsset();
+    const backgroundPreload = defaultBackground
+        ? assetLoader.preloadAll([defaultBackground.src])
+        : Promise.resolve();
 
     // 素材文件夹状态管理
     let activeFolderId = null; // 当前打开的文件夹 ID
     let activeFolderAssets = []; // 当前文件夹的素材列表
     let isLoadingFolder = false; // 是否正在加载文件夹
+    let activeBackgroundId = defaultBackground?.id ?? '';
+    let isBackgroundLoading = false;
 
     // ==================== 4. 创建编辑器实例 ====================
     const studio = new PressedFlowerStudio({
@@ -330,11 +373,51 @@ async function main() {
     // 初始化编辑器（创建 Konva Stage，不阻塞背景加载）
     await studio.initialize();
 
+    async function switchBackgroundById(backgroundId, { preserveComposition = true, silent = false } = {}) {
+        const background = catalog.getBackground(backgroundId);
+        if (!background || isBackgroundLoading) {
+            return;
+        }
+
+        if (studio.getBackgroundId() === background.id) {
+            activeBackgroundId = background.id;
+            renderPalette();
+            return;
+        }
+
+        isBackgroundLoading = true;
+        renderPalette();
+
+        try {
+            if (bgLoaderElem) bgLoaderElem.classList.add('is-loading');
+            await studio.setBackground(background, {
+                preserveComposition,
+                silent: true,
+            });
+            activeBackgroundId = background.id;
+
+            if (!silent) {
+                updateStatus(statusNode, i18n.t('status.backgroundChanged', {
+                    label: i18n.label(background.id, {}, background.id),
+                }));
+            }
+        } catch (error) {
+            handleAppError(statusNode, i18n, error);
+        } finally {
+            isBackgroundLoading = false;
+            if (bgLoaderElem) bgLoaderElem.classList.remove('is-loading');
+            renderPalette();
+        }
+    }
+
     // 显示背景加载提示，直到背景资源就绪并设置到编辑器
     try {
         if (bgLoaderElem) bgLoaderElem.classList.add('is-loading');
         await backgroundPreload;
-        await studio.setBackground(catalog.getBackgroundAsset());
+        if (defaultBackground) {
+            await studio.setBackground(defaultBackground, { preserveComposition: false });
+            activeBackgroundId = defaultBackground.id;
+        }
         updateStatus(statusNode, i18n.t('status.assetsReady'));
     } catch (error) {
         // 背景加载失败不阻塞主应用，但记录并显示提示
@@ -345,12 +428,18 @@ async function main() {
 
     // ==================== 5. 定义素材调色板渲染函数 ====================
     const renderPalette = () => {
+        const groups = createPaletteGroups(catalogGroups, backgrounds);
+
         renderAssetPalette({
             mountNode: paletteNode,
-            groups: catalog.getGroups(), // 所有素材分组
-            activeFolder: activeFolderId ? catalog.getFolder(activeFolderId) : null, // 当前激活的文件夹
+            backgrounds,
+            activeBackgroundId,
+            groups, // 所有素材分组
+            activeFolder: findPaletteFolder(groups, activeFolderId), // 当前激活的文件夹
             assets: activeFolderAssets, // 当前文件夹的素材列表
+            isBackgroundLoading,
             isLoading: isLoadingFolder, // 是否正在加载
+            onBackgroundSelect: switchBackgroundById,
             onFolderOpen: openFolder, // 打开文件夹回调
             onAssetAdd: addAssetById, // 添加素材回调
             getLabel: (id) => i18n.label(id, {}, id), // 获取标签文本
@@ -377,6 +466,25 @@ async function main() {
      * @param {string} folderId - 文件夹 ID
      */
     async function openFolder(folderId) {
+        const groups = createPaletteGroups(catalogGroups, backgrounds);
+        const folder = findPaletteFolder(groups, folderId);
+        if (!folder) {
+            return;
+        }
+
+        if (folder.kind === 'background') {
+            if (activeFolderId === folderId) {
+                return;
+            }
+
+            activeFolderId = folderId;
+            activeFolderAssets = [];
+            isLoadingFolder = false;
+            renderPalette();
+            updateStatus(statusNode, i18n.t('status.folderLoaded', { label: i18n.label(folderId, {}, folderId) }));
+            return;
+        }
+
         // 如果已经是当前文件夹，则跳过
         if (activeFolderId === folderId && activeFolderAssets.length) {
             return;
@@ -483,7 +591,10 @@ async function main() {
                 // 加载作品到画布
                 await studio.loadComposition(document, {
                     resolveAssetById: (assetId) => catalog.getAsset(assetId),
+                    resolveBackgroundById: (backgroundId) => catalog.getBackground(backgroundId),
                 });
+                activeBackgroundId = studio.getBackgroundId() || activeBackgroundId;
+                renderPalette();
             } catch (error) {
                 updateStatus(statusNode, i18n.t('status.importFailed', {
                     message: error instanceof Error ? error.message : String(error),

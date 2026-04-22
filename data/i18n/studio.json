@@ -15,6 +15,16 @@
       "zh-Hant": "圖層",
       "en": "Layers"
     },
+    "studio.backgrounds": {
+      "zh-Hans": "背景图片",
+      "zh-Hant": "背景圖片",
+      "en": "Backgrounds"
+    },
+    "studio.backgroundHint": {
+      "zh-Hans": "点击缩略图即可替换当前书签背景。",
+      "zh-Hant": "點擊縮圖即可替換目前書籤背景。",
+      "en": "Click a thumbnail to replace the current bookmark background."
+    },
     "studio.assetLibrary": {
       "zh-Hans": "素材库",
       "zh-Hant": "素材庫",
@@ -49,6 +59,11 @@
       "zh-Hans": "添加 {label}",
       "zh-Hant": "加入 {label}",
       "en": "Add {label}"
+    },
+    "studio.useBackground": {
+      "zh-Hans": "使用 {label} 作为背景",
+      "zh-Hant": "使用 {label} 作為背景",
+      "en": "Use {label} as the background"
     },
     "toolbar.moveUp": {
       "zh-Hans": "上移",
@@ -174,6 +189,11 @@
       "zh-Hans": "工作台背景已加载完成。",
       "zh-Hant": "工作台背景已載入完成。",
       "en": "Workbench background loaded."
+    },
+    "status.backgroundChanged": {
+      "zh-Hans": "已切换到背景：{label}",
+      "zh-Hant": "已切換到背景：{label}",
+      "en": "Switched to background: {label}"
     },
     "status.assetsReady": {
       "zh-Hans": "素材库已就绪。可点击文件夹懒加载素材，也可拖入画布。",

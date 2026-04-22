@@ -160,11 +160,40 @@ export class PressedFlowerStudio {
    * 公共方法：异步设置背景并确保舞台尺寸同步
    * @param {Object} backgroundAsset
    */
-  async setBackground(backgroundAsset) {
+  async setBackground(backgroundAsset, { preserveComposition = true, silent = false } = {}) {
+    const previousBackgroundAsset = this.#backgroundAsset;
+
+    if (this.#isCropMode) {
+      this.commitCropSelection();
+    }
+
     this.#backgroundAsset = backgroundAsset;
     await this.#setBackground(backgroundAsset);
+
+    if (
+      preserveComposition
+      && previousBackgroundAsset
+      && backgroundAsset
+      && previousBackgroundAsset.id !== backgroundAsset.id
+    ) {
+      this.#remapCompositionToBackground(previousBackgroundAsset, backgroundAsset);
+    }
+
     this.#syncStageSize();
-    this.#setStatusByKey('status.backgroundLoaded');
+    this.#emitSelectionChange();
+    this.#emitLayersChange();
+
+    if (!silent) {
+      this.#setStatusByKey('status.backgroundLoaded');
+    }
+  }
+
+  /**
+   * 获取当前背景 ID
+   * @returns {string}
+   */
+  getBackgroundId() {
+    return this.#backgroundAsset?.id ?? '';
   }
 
   /**
@@ -586,13 +615,25 @@ export class PressedFlowerStudio {
    * @param {Object} options - 选项
    * @param {Function} options.resolveAssetById - 通过 ID 解析素材的函数
    */
-  async loadComposition(document, { resolveAssetById }) {
+  async loadComposition(document, { resolveAssetById, resolveBackgroundById } = {}) {
     // 验证文件格式
     if (!document || document.type !== 'amazing-flower-composition' || !Array.isArray(document.items)) {
       throw new Error('不是有效的导入文件。');
     }
 
     this.clearComposition({ silent: true }); // 清空当前画布
+
+    if (document.backgroundId) {
+      const backgroundAsset = await resolveBackgroundById?.(document.backgroundId);
+      if (!backgroundAsset) {
+        throw new Error(`缺少背景 ${document.backgroundId}`);
+      }
+
+      await this.setBackground(backgroundAsset, {
+        preserveComposition: false,
+        silent: true,
+      });
+    }
 
     // 逐个加载素材
     for (const item of document.items) {
@@ -1032,6 +1073,48 @@ export class PressedFlowerStudio {
     }
 
     this.#requestDraw();
+  }
+
+  #remapCompositionToBackground(previousBackgroundAsset, nextBackgroundAsset) {
+    const previousRegion = this.#getBackgroundRegion(previousBackgroundAsset);
+    const nextRegion = this.#getBackgroundRegion(nextBackgroundAsset);
+
+    if (!previousRegion || !nextRegion) {
+      return;
+    }
+
+    const scaleX = nextRegion.width / previousRegion.width;
+    const scaleY = nextRegion.height / previousRegion.height;
+    const uniformScale = Math.sqrt(scaleX * scaleY);
+
+    this.#compositionGroup?.getChildren().forEach((node) => {
+      const relativeX = (node.x() - previousRegion.x) / previousRegion.width;
+      const relativeY = (node.y() - previousRegion.y) / previousRegion.height;
+
+      node.position({
+        x: nextRegion.x + relativeX * nextRegion.width,
+        y: nextRegion.y + relativeY * nextRegion.height,
+      });
+      node.scaleX(node.scaleX() * uniformScale);
+      node.scaleY(node.scaleY() * uniformScale);
+    });
+  }
+
+  #getBackgroundRegion(backgroundAsset) {
+    if (!backgroundAsset) {
+      return null;
+    }
+
+    const width = Math.max(Number(backgroundAsset.imageWidth) || 0, 1);
+    const height = Math.max(Number(backgroundAsset.imageHeight) || 0, 1);
+    const region = backgroundAsset.exportRegion ?? { x: 0, y: 0, width: 1, height: 1 };
+
+    return {
+      x: width * region.x,
+      y: height * region.y,
+      width: Math.max(width * region.width, 1),
+      height: Math.max(height * region.height, 1),
+    };
   }
 
   #getExportCropRect() {

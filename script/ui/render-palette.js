@@ -35,10 +35,42 @@ function createAssetCard(asset, { onAssetAdd, getLabel, addLabel }) {
   return button;
 }
 
-function createFolderCard(folder, { isActive, onFolderOpen, getLabel, countLabel }) {
+function createBackgroundCard(background, {
+  isActive,
+  isDisabled,
+  onBackgroundSelect,
+  getLabel,
+  useLabel,
+}) {
+  const label = getLabel(background.id);
   const button = document.createElement('button');
   button.type = 'button';
-  button.className = `folder-card${isActive ? ' is-active' : ''}`;
+  button.className = `background-card${isActive ? ' is-active' : ''}`;
+  button.disabled = isDisabled;
+  button.dataset.backgroundId = background.id;
+  button.setAttribute('aria-label', useLabel(label));
+  button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+  const preview = document.createElement('img');
+  preview.className = 'background-card__preview';
+  preview.src = background.src;
+  preview.alt = label;
+  preview.loading = 'lazy';
+  preview.decoding = 'async';
+
+  const title = document.createElement('strong');
+  title.className = 'background-card__title';
+  title.textContent = label;
+
+  button.append(preview, title);
+  button.addEventListener('click', () => onBackgroundSelect(background.id));
+  return button;
+}
+
+function createFolderCard(folder, { activeFolderId, onFolderOpen, getLabel, countLabel }) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = `folder-card${activeFolderId === folder.id ? ' is-active' : ''}`;
   button.dataset.folderId = folder.id;
 
   const icon = document.createElement('span');
@@ -90,10 +122,14 @@ function createEmptyState(message) {
 
 export function renderAssetPalette({
   mountNode,
+  backgrounds,
+  activeBackgroundId,
   groups,
   activeFolder,
   assets,
+  isBackgroundLoading,
   isLoading,
+  onBackgroundSelect,
   onFolderOpen,
   onAssetAdd,
   getLabel,
@@ -104,8 +140,9 @@ export function renderAssetPalette({
 
   const foldersPanel = document.createElement('div');
   foldersPanel.className = 'asset-browser__folders';
+
   foldersPanel.append(...groups.map((group) => createGroupSection(group, {
-    isActive: activeFolder?.id,
+    activeFolderId: activeFolder?.id ?? '',
     onFolderOpen,
     getLabel,
     countLabel: messages.folderCount,
@@ -123,20 +160,55 @@ export function renderAssetPalette({
 
   const description = document.createElement('p');
   description.className = 'asset-browser__hint';
-  description.textContent = activeFolder
+  description.textContent = activeFolder?.kind === 'background'
+    ? messages.backgroundHint
+    : activeFolder
     ? messages.folderCount(activeFolder.assetCount)
     : messages.folderHint;
 
   contentHeader.append(title, description);
 
-  if (isLoading) {
+  if (isLoading && activeFolder?.kind !== 'background') {
     content.append(contentHeader, createEmptyState(messages.loading));
     browser.append(foldersPanel, content);
     mountNode.replaceChildren(browser);
     return;
   }
 
-  if (!activeFolder || !assets.length) {
+  if (!activeFolder) {
+    content.append(contentHeader, createEmptyState(messages.pickFolder));
+    browser.append(foldersPanel, content);
+    mountNode.replaceChildren(browser);
+    return;
+  }
+
+  if (activeFolder.kind === 'background') {
+    if (!backgrounds.length) {
+      content.append(contentHeader, createEmptyState(messages.empty));
+      browser.append(foldersPanel, content);
+      mountNode.replaceChildren(browser);
+      return;
+    }
+
+    const grid = document.createElement('div');
+    grid.className = 'background-grid';
+    backgrounds.forEach((background) => {
+      grid.append(createBackgroundCard(background, {
+        isActive: activeBackgroundId === background.id,
+        isDisabled: isBackgroundLoading,
+        onBackgroundSelect,
+        getLabel,
+        useLabel: messages.useBackground,
+      }));
+    });
+
+    content.append(contentHeader, grid);
+    browser.append(foldersPanel, content);
+    mountNode.replaceChildren(browser);
+    return;
+  }
+
+  if (!assets.length) {
     content.append(contentHeader, createEmptyState(activeFolder ? messages.empty : messages.pickFolder));
     browser.append(foldersPanel, content);
     mountNode.replaceChildren(browser);
